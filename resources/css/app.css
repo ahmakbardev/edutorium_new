@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+@layer base {
+    * {
+        font-family: "Plus Jakarta Sans", sans-serif;
+    }
+}
+
+@layer components {
+    .btn-fill {
+        @apply bg-primary-800 text-white py-2 px-5 rounded-lg font-medium hover:bg-white hover:ring-2 hover:ring-inset hover:ring-primary-800 hover:text-primary-800 transition-all ease-in-out hover:font-semibold;
+    }
+}
+
+.swiper-pagination-bullet {
+    position: relative;
+    width: fit-content; /* Atur sesuai kebutuhan */
+    height: auto;
+    text-align: left;
+    border-radius: 5px; /* Atur sesuai kebutuhan */
+    opacity: 1;
+    margin-right: 20px;
+    background-color: rgba(113, 222, 255, 0.271);
+    transition: all ease-in-out;
+    transform-origin: right center; /* Set titik transformasi ke kanan */
+}
+
+.swiper-pagination-bullet em {
+    font-size: 15px;
+    line-height: 28px;
+    font-weight: bold;
+    letter-spacing: -0.38px;
+    color: rgba(113, 222, 255, 0.271);
+}
+
+.swiper-pagination-bullet i {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background-color: rgba(113, 222, 255, 0.271);
+}
+
+.swiper-pagination-bullet b {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 0%;
+    height: 8px;
+    background-color: #71ddff;
+    /*progress bar 채워지는 부분*/
+    border-radius: 5px; /* Ganti nilai sesuai kebutuhan */
+    /* Tambahkan transisi untuk membuatnya terlihat smooth */
+    transition: width ease-in-out, border-radius ease-in-out;
+}
+
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+    left: 50% !important;
+    --tw-translate-x: -50%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
+    width: 8px; /* Atur ukuran default */
+    border-radius: 5px; /* Atur sesuai kebutuhan */
+    transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+    transform-origin: right center; /* Set titik transformasi ke kanan */
+    background-color: rgb(113, 222, 255);
+}
+
+.swiper-pagination-bullet-active {
+    width: 100px !important;
+    background: transparent !important;
+    border-radius: 5px;
+}
+
+/* Transisi untuk dot yang aktif */
+.swiper-pagination-bullet-active b {
+    transition: width 0.3s ease-in-out; /* Ubah sesuai kebutuhan */
+    border-radius: 5px;
+}
+
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+    width: unset !important;
+}
+
+@media screen and (max-width: 480px) {
+    .swiper-pagination-bullet-active {
+        width: 30px !important;
+    }
+
+    .swiper-pagination-bullet {
+        margin-right: 5px;
+    }
+}
