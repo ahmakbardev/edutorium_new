@@ -281,7 +281,6 @@
                 }
                 quizContainer.innerHTML = `
         <div class="p-4 bg-white rounded-lg shadow">
-            
             <h2 class="text-2xl font-semibold mb-4">${question.question}</h2>
             <div class="grid grid-cols-2 gap-4">
                 ${question.answers.map((option, index) => `
