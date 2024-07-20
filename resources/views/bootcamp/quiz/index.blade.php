@@ -275,28 +275,24 @@
 
             function renderQuestion() {
                 const question = quizData[currentQuestionIndex];
-                if (!question) {
-                    console.error('Question data is undefined.');
-                    return;
-                }
                 quizContainer.innerHTML = `
-        <div class="p-4 bg-white rounded-lg shadow">
-            <h2 class="text-2xl font-semibold mb-4">${question.question}</h2>
-            <div class="grid grid-cols-2 gap-4">
-                ${question.answers.map((option, index) => `
-                        <label class="block bg-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-300">
-                            <input type="radio" name="answer" value="${option}" class="mr-2">${option}
-                        </label>
-                    `).join('')}
-            </div>
-            <div class="mt-4 relative">
-                <p id="timer" class="text-red-500 font-bold mb-2"></p>
-                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                    <div id="time-bar" class="bg-red-500 h-2.5 rounded-full transition-all linear"></div>
-                </div>
-            </div>
-        </div>
-    `;
+                    <div class="p-4 bg-white rounded-lg shadow">
+                        <h2 class="text-2xl font-semibold mb-4">${question.question}</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            ${question.answers.map((option, index) => `
+                                    <label class="block bg-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-300">
+                                        <input type="radio" name="answer" value="${option}" class="mr-2">${option}
+                                    </label>
+                                `).join('')}
+                        </div>
+                        <div class="mt-4 relative">
+                            <p id="timer" class="text-red-500 font-bold mb-2"></p>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                <div id="time-bar" class="bg-red-500 h-2.5 rounded-full transition-all linear"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 startTimer(question.timeLimit); // Menggunakan time limit dari data
             }
 
@@ -470,11 +466,8 @@
             document.addEventListener('keydown', handleKeydown);
             window.addEventListener('beforeunload', handleBeforeUnload);
             // Initialize quiz
-            document.addEventListener('DOMContentLoaded', function() {
-                // existing code...
-                renderQuestion();
-                handleNavigation();
-            });
+            renderQuestion();
+            handleNavigation();
         });
     </script>
 @endsection
