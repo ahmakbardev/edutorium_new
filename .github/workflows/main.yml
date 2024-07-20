@@ -29,12 +29,16 @@ jobs:
             source ~/.bash_profile
             which composer
             composer --version
-            cp .env.example .env
             composer install
             composer update
             php artisan key:generate
             php artisan route:clear
             php artisan config:cache
             php artisan optimize
+            
+            # Set permissions for storage directory
+            find /home/u376682195/domains/edutorium.in/edutorium_new/storage -type d -exec chmod 755 {} \;
+            find /home/u376682195/domains/edutorium.in/edutorium_new/storage -type f -exec chmod 644 {} \;
+            
             rm -rf /home/u376682195/domains/edutorium.in/public_html/staging
             ln -s /home/u376682195/domains/edutorium.in/edutorium_new/public /home/u376682195/domains/edutorium.in/public_html/staging
