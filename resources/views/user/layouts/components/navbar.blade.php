@@ -2,7 +2,8 @@
     <div id="myScrollableElement" class="h-screen" data-simplebar>
         <!-- brand logo -->
         <a class="navbar-brand" href="./index.html">
-            <img src="{{ asset('assets/images/brand/logo/logo.svg') }}" alt="" />
+            {{-- <img src="{{ asset('assets/images/brand/logo/logo.svg') }}" alt="" /> --}}
+            <h1 class="text-2xl text-white font-bold">edutorium</h1>
         </a>
 
         <!-- navbar nav -->
@@ -28,25 +29,25 @@
                 <div id="bootcamp" class="collapse " data-bs-parent="#sideNavbar">
                     <ul class="nav flex-col">
                         <li class="nav-item">
-                            <a class="nav-link flex gap-1 " href="">
+                            <a class="nav-link flex gap-1 " href="{{ route('user.bootcamp.modul.modul') }}">
                                 <i data-feather="columns" class="w-4 h-4 mr-2"></i>
                                 Modul
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link flex gap-1 " href="#">
+                            <a class="nav-link flex gap-1 " href="{{ route('user.livecoding.index') }}">
                                 <i data-feather="code" class="w-4 h-4 mr-2"></i>
                                 LiveCode
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link flex gap-1" href="#">
+                            <a class="nav-link flex gap-1" href="{{ route('user.quiz.index') }}">
                                 <i data-feather="edit-2" class="w-4 h-4 mr-2"></i>
                                 Quiz
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link flex gap-1" href="#">
+                            <a class="nav-link flex gap-1" href="{{ route('user.tugas-akhir.index') }}">
                                 <i data-feather="star" class="w-4 h-4 mr-2"></i>
                                 Tugas Akhir
                             </a>
@@ -55,12 +56,12 @@
                 </div>
             </li>
             <!-- nav item -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i data-feather="clipboard" class="w-4 h-4 mr-2"></i>
                     Portfolio
                 </a>
-            </li>
+            </li> --}}
             <!-- nav item -->
             <li class="nav-item">
                 <div class="navbar-heading">Akun</div>

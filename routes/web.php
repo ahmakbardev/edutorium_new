@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BootcampController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LiveCodingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\TugasAkhirController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,13 +36,42 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::prefix('user')->as('user.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::prefix('bootcamp')->as('bootcamp.')->group(function () {
+            Route::prefix('modul')->as('modul.')->group(function () {
+                Route::get('/', [BootcampController::class, 'modul'])->name('modul');
+                Route::get('/{modul}/{materi}', [BootcampController::class, 'materi'])->name('materi');
+            });
+        });
+
         Route::prefix('profile')->as('profile.')->group(function () {
             Route::get('/', [ProfileController::class, 'index'])->name('index');
             Route::get('/edit', function () {
                 return view('user.profile.edit');
             })->name('edit');
         });
+        Route::get('/livecoding', [LiveCodingController::class, 'index'])->name('livecoding.index');
+        Route::get('/livecoding/{moduleId}', [LiveCodingController::class, 'showTutorials'])->name('livecoding.show');
+        Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
+        Route::get('/quiz/{module_id}', [QuizController::class, 'show'])->name('quiz.show');
+        
+        Route::post('/save-partial-quiz-score', [QuizController::class, 'savePartialQuizScore'])->name('save.partial.quiz.score');
+        Route::post('/save-quiz-score', [QuizController::class, 'saveQuizScore'])->name('save.quiz.score');
+        Route::post('/save-progress', [LiveCodingController::class, 'saveProgress'])->name('save.progress');
+        
+        Route::get('/tugas-akhir', [TugasAkhirController::class, 'index'])->name('tugas-akhir.index');
+        Route::post('/tugas-akhir', [TugasAkhirController::class, 'store'])->name('tugas-akhir.store');
+
+        Route::get('/livecode', function () {
+            return view('bootcamp.livecode.index');
+        })->name('livecode');
+
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+// Route::get('/quiz', function () {
+//     return view('bootcamp.quiz.index');
+// });
+

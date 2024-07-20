@@ -81,54 +81,16 @@
     <div class="px-6 lg:px-32 flex flex-col lg:items-center mt-10">
         <h1 class="text-5xl font-bold">Portfolio Siswa <span class="text-primary-900">Edutorium</span></h1>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 w-full gap-8 my-10">
-            <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden">
-                <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-48 w-full object-cover"
-                    alt="">
-                <div class="flex flex-col gap-px px-5 py-4">
-                    <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
-                    <p class="text-sm">12 Juni 2024.</p>
+            @for ($i = 0; $i < 9; $i++)
+                <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden hover:scale-105 transition-all ease-in-out duration-300">
+                    <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-48 w-full object-cover"
+                        alt="">
+                    <div class="flex flex-col gap-px px-5 py-4">
+                        <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
+                        <p class="text-sm">12 Juni 2024.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden">
-                <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-48 w-full object-cover"
-                    alt="">
-                <div class="flex flex-col gap-px px-5 py-4">
-                    <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
-                    <p class="text-sm">12 Juni 2024.</p>
-                </div>
-            </div>
-            <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden">
-                <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-48 w-full object-cover"
-                    alt="">
-                <div class="flex flex-col gap-px px-5 py-4">
-                    <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
-                    <p class="text-sm">12 Juni 2024.</p>
-                </div>
-            </div>
-            <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden">
-                <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-48 w-full object-cover"
-                    alt="">
-                <div class="flex flex-col gap-px px-5 py-4">
-                    <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
-                    <p class="text-sm">12 Juni 2024.</p>
-                </div>
-            </div>
-            <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden">
-                <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-56 w-full object-cover"
-                    alt="">
-                <div class="flex flex-col gap-px px-5 py-4">
-                    <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
-                    <p class="text-sm">12 Juni 2024.</p>
-                </div>
-            </div>
-            <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden">
-                <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-56 w-full object-cover"
-                    alt="">
-                <div class="flex flex-col gap-px px-5 py-4">
-                    <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
-                    <p class="text-sm">12 Juni 2024.</p>
-                </div>
-            </div>
+            @endfor
         </div>
     </div>
 @endsection

@@ -7,7 +7,7 @@
         <div class="hidden md:flex gap-5 items-center">
             <ul class="flex gap-5 items-center">
                 <li class="text-sm">Beranda</li>
-                <li class="text-sm">Bootcamp</li>
+                <li class="text-sm"> <a href="{{ route('user.bootcamp.modul.modul') }}">Bootcamp</a></li>
                 <li class="text-sm">Tentang</li>
             </ul>
         </div>
