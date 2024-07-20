@@ -26,6 +26,7 @@ jobs:
             cd /home/u376682195/domains/edutorium.in/edutorium_new
             chmod +x ~/bin/composer
             echo "export PATH=$HOME/bin:$PATH" >> ~/.bash_profile
+            git pull
             source ~/.bash_profile
             which composer
             composer --version
