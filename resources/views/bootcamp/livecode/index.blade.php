@@ -88,7 +88,7 @@
                 <span class="sr-only">Close menu</span>
             </button>
         </div>
-        <div class="p-4 h-[90%]">
+        <div class="p-4 h-[90%]" data-simplebar="">
             @foreach ($tutorials as $tutorial)
                 <div class="mb-4 h-full flex flex-col justify-between">
                     <div class="flex flex-col gap-3">
