@@ -6,19 +6,19 @@
             function addTailwindClasses($content)
             {
                 // Tambahkan class Tailwind ke elemen-elemen CKEditor
-                $content = preg_replace('/<p>/', '<p class="mb-4 text-gray-700">', $content);
-                $content = preg_replace('/<h1>/', '<h1 class="text-3xl font-bold mb-4">', $content);
+                $content = preg_replace('/<p>/', '<p class="mb-7 text-gray-700">', $content);
+                $content = preg_replace('/<h1>/', '<h1 class="text-3xl font-bold mb-7">', $content);
                 $content = preg_replace('/<h2>/', '<h2 class="text-2xl font-bold mb-3">', $content);
                 $content = preg_replace('/<h3>/', '<h3 class="text-xl font-bold mb-2">', $content);
-                $content = preg_replace('/<img/', '<img class="rounded-lg shadow-md mb-4"', $content);
+                $content = preg_replace('/<img/', '<img class="rounded-lg shadow-md mb-7"', $content);
                 $content = preg_replace(
                     '/<figure class="media"/',
                     '<figure class="media rounded-lg overflow-hidden"',
                     $content,
                 );
                 $content = preg_replace(
-                    '/<p class="mb-4 text-gray-700">&nbsp/',
-                    '<p class="mb-4 text-gray-700 hidden">&nbsp',
+                    '/<p class="mb-7 text-gray-700">&nbsp/',
+                    '<p class="mb-7 text-gray-700 hidden">&nbsp',
                     $content,
                 );
                 // Tambahkan class lain sesuai kebutuhan
