@@ -13,6 +13,20 @@ class TugasAkhirController extends Controller
     public function index()
     {
         $tugasAkhirs = TugasAkhir::all();
+        $userId = Auth::id();
+        $userSubmissions = TugasAkhirSubmission::where('user_id', $userId)->get();
+
+        foreach ($tugasAkhirs as $tugasAkhir) {
+            $cleanedJsonString = trim($tugasAkhir->kriteria_penilaian, '"');
+            $cleanedJsonString = str_replace('\\"', '"', $cleanedJsonString);
+            $tugasAkhir->kriteria_penilaian = $cleanedJsonString;
+
+            $tugasAkhir->submission = $userSubmissions->firstWhere('tugas_akhir_id', $tugasAkhir->id);
+            if ($tugasAkhir->submission) {
+                $tugasAkhir->submission_files = TugasAkhirSubmissionFile::where('submission_id', $tugasAkhir->submission->id)->get();
+            }
+        }
+
         return view('tugas_akhir.index', compact('tugasAkhirs'));
     }
 
@@ -23,16 +37,20 @@ class TugasAkhirController extends Controller
             'additional_info' => 'nullable|string',
             'github_url' => 'nullable|url',
             'web_url' => 'nullable|url',
-            'files.*' => 'required|file|mimes:pdf|max:3072'
+            'files.*' => 'file|mimes:pdf|max:3072'
         ]);
 
-        $submission = TugasAkhirSubmission::create([
-            'user_id' => Auth::id(),
-            'tugas_akhir_id' => $request->tugas_akhir_id,
-            'additional_info' => $request->additional_info,
-            'github_url' => $request->github_url,
-            'web_url' => $request->web_url
-        ]);
+        $submission = TugasAkhirSubmission::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'tugas_akhir_id' => $request->tugas_akhir_id
+            ],
+            [
+                'additional_info' => $request->additional_info,
+                'github_url' => $request->github_url,
+                'web_url' => $request->web_url
+            ]
+        );
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
@@ -45,5 +63,17 @@ class TugasAkhirController extends Controller
         }
 
         return redirect()->route('user.tugas-akhir.index')->with('success', 'Tugas akhir berhasil dikumpulkan.');
+    }
+
+    public function deleteFile($fileId)
+    {
+        try {
+            $file = TugasAkhirSubmissionFile::findOrFail($fileId);
+            $file->delete();
+
+            return response()->json(['success' => true, 'message' => 'File deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to delete file']);
+        }
     }
 }

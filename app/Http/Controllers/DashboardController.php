@@ -66,6 +66,38 @@ class DashboardController extends Controller
             ->orderBy('progress.updated_at', 'desc')
             ->first();
 
+        // Fetch livecode assessments for the current user
+        $livecodeAssessments = DB::table('livecode_assessments')
+            ->join('progress', 'livecode_assessments.livecode_tutorial_id', '=', 'progress.module_id')
+            ->where('livecode_assessments.user_id', Auth::id())
+            ->select('livecode_assessments.*', 'progress.module_id')
+            ->get();
+
+        // Calculate the average score for each assessment
+        $assessments = collect();
+        foreach ($livecodeAssessments as $assessment) {
+            // Clean up the JSON string and decode it
+            $cleanedJsonString = str_replace('\\"', '"', trim($assessment->kriteria_penilaian, '"'));
+            $kriteriaPenilaian = json_decode($cleanedJsonString, true);
+
+            // Check if JSON decoding was successful
+            if (json_last_error() === JSON_ERROR_NONE && is_array($kriteriaPenilaian)) {
+                $totalScore = array_sum(array_column($kriteriaPenilaian, 'nilai'));
+                $averageScore = $totalScore / count($kriteriaPenilaian);
+                $assessment->average_score = $averageScore;
+            } else {
+                $assessment->average_score = null;
+            }
+
+            $assessments->push($assessment);
+        }
+
+        // Combine userLivecodes with their respective assessments
+        foreach ($userLivecodes as $livecode) {
+            $livecodeAssessment = $assessments->firstWhere('module_id', $livecode->module_id);
+            $livecode->average_score = $livecodeAssessment->average_score ?? null;
+        }
+
         // Calculate the progress percentage
         if ($latestProgress) {
             $totalMateri = DB::table('materis')
@@ -100,6 +132,6 @@ class DashboardController extends Controller
             $progressPercentage = 0;
         }
 
-        return view('user.index', compact('isEmpty', 'userLivecodes', 'allLivecodes', 'history', 'progress', 'latestProgress', 'progressPercentage'));
+        return view('user.index', compact('isEmpty', 'userLivecodes', 'allLivecodes', 'history', 'progress', 'latestProgress', 'progressPercentage', 'assessments'));
     }
 }

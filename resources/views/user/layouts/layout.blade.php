@@ -66,6 +66,7 @@
                 @yield('content')
 
                 @include('user.layouts.components.footer')
+                @include('user.layouts.components.toast')
 
             </div>
         </div>

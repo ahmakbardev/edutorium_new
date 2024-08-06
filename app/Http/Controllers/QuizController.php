@@ -40,33 +40,10 @@ class QuizController extends Controller
         return view('bootcamp.quiz.list', compact('modules', 'materis', 'userProgresses'));
     }
 
-
     public function show($module_id)
     {
         $user_id = Auth::id();
         $progress = DB::table('progress')->where('user_id', $user_id)->where('module_id', $module_id)->first();
-
-        if ($progress && !is_null($progress->quiz)) {
-            $lastMateri = null;
-
-            if ($progress) {
-                $materiProgress = json_decode($progress->materi, true);
-                if (is_array($materiProgress) && !empty($materiProgress)) {
-                    $lastMateri = end($materiProgress);
-                }
-            }
-
-            $module = DB::table('modules')->where('id', $module_id)->first();
-            $module_name = $module->name;
-
-            if ($lastMateri) {
-                $lastMateriSlug = strtolower(str_replace(' ', '-', $lastMateri));
-                $moduleSlug = strtolower(str_replace(' ', '-', $module_name));
-                return redirect()->route('user.bootcamp.modul.materi', ['modul' => $moduleSlug, 'materi' => $lastMateriSlug]);
-            } else {
-                return redirect()->route('user.dashboard');
-            }
-        }
 
         // Mengambil data kuis berdasarkan module_id
         $quiz = DB::table('quizzes')->where('module_id', $module_id)->first();
@@ -78,15 +55,6 @@ class QuizController extends Controller
         $cleanQuestionsJson = str_replace(["\n", "\r", "\\"], '', $quiz->questions);
         $cleanQuestionsJson = trim($cleanQuestionsJson, '"');
         $questions = json_decode($cleanQuestionsJson, true);
-
-        if (is_array($questions)) {
-            foreach ($questions as &$question) {
-                $question['timeLimit'] = 10;
-            }
-            unset($question);
-        } else {
-            $questions = [];
-        }
 
         $lastMateri = null;
 
@@ -103,33 +71,44 @@ class QuizController extends Controller
         return view('bootcamp.quiz.index', compact('questions', 'module_id', 'lastMateri', 'module_name'));
     }
 
-
-    public function savePartialQuizScore(Request $request)
+    // Method to handle quiz submission
+    public function submit(Request $request)
     {
         $user_id = Auth::id();
         $module_id = $request->input('module_id');
-        $score = $request->input('score');
+        $submittedAnswers = $request->input('answers');
+
+        $quiz = DB::table('quizzes')->where('module_id', $module_id)->first();
+        $cleanQuestionsJson = str_replace(["\n", "\r", "\\"], '', $quiz->questions);
+        $cleanQuestionsJson = trim($cleanQuestionsJson, '"');
+        $questions = json_decode($cleanQuestionsJson, true);
+
+        $correctAnswers = 0;
+        $totalQuestions = count($questions);
+
+        // Create a map of correct answers
+        $correctAnswerMap = [];
+        foreach ($questions as $question) {
+            $correctAnswerMap[$question['question']] = $question['answers'][$question['correct'] - 1];
+        }
+
+        foreach ($submittedAnswers as $submittedAnswer) {
+            $questionText = $submittedAnswer['question'];
+            $answerText = $submittedAnswer['answer'];
+
+            if (isset($correctAnswerMap[$questionText]) && $correctAnswerMap[$questionText] === $answerText) {
+                $correctAnswers++;
+            }
+        }
+
+        // Calculate the percentage of correct answers
+        $score = ($correctAnswers / $totalQuestions) * 100;
 
         DB::table('progress')->updateOrInsert(
             ['user_id' => $user_id, 'module_id' => $module_id],
-            ['quiz' => $score, 'updated_at' => now()]
+            ['quiz' => round($score, 2), 'updated_at' => now()]
         );
 
-        return response()->json(['message' => 'Partial quiz score saved successfully']);
-    }
-
-
-    public function saveQuizScore(Request $request)
-    {
-        $user_id = Auth::id();
-        $module_id = $request->input('module_id');
-        $score = $request->input('score');
-
-        DB::table('progress')->updateOrInsert(
-            ['user_id' => $user_id, 'module_id' => $module_id],
-            ['quiz' => $score, 'updated_at' => now()]
-        );
-
-        return response()->json(['message' => 'Quiz score saved successfully']);
+        return response()->json(['message' => 'Quiz submitted successfully', 'score' => round($score, 2)]);
     }
 }

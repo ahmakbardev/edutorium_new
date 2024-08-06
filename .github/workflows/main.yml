@@ -41,5 +41,6 @@ jobs:
             find /home/u376682195/domains/edutorium.in/edutorium_new/storage -type d -exec chmod 755 {} \;
             find /home/u376682195/domains/edutorium.in/edutorium_new/storage -type f -exec chmod 644 {} \;
             
-            rm -rf /home/u376682195/domains/edutorium.in/public_html/staging
+            # rm -rf /home/u376682195/domains/edutorium.in/public_html/staging
+            ln -s /home/u376682195/domains/edutorium.in/edutorium/public/storage/* /home/u376682195/domains/edutorium.in/public_html/admin/storage
             ln -s /home/u376682195/domains/edutorium.in/edutorium_new/public /home/u376682195/domains/edutorium.in/public_html/staging

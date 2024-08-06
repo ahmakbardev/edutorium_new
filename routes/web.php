@@ -53,19 +53,24 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/livecoding', [LiveCodingController::class, 'index'])->name('livecoding.index');
         Route::get('/livecoding/{moduleId}', [LiveCodingController::class, 'showTutorials'])->name('livecoding.show');
         Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
+        // Routes for quiz
+        Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
         Route::get('/quiz/{module_id}', [QuizController::class, 'show'])->name('quiz.show');
-        
-        Route::post('/save-partial-quiz-score', [QuizController::class, 'savePartialQuizScore'])->name('save.partial.quiz.score');
-        Route::post('/save-quiz-score', [QuizController::class, 'saveQuizScore'])->name('save.quiz.score');
+
+        // Route for saving quiz answers
+        Route::post('/submit-quiz', [QuizController::class, 'submit'])->name('submit.quiz');
         Route::post('/save-progress', [LiveCodingController::class, 'saveProgress'])->name('save.progress');
-        
+
         Route::get('/tugas-akhir', [TugasAkhirController::class, 'index'])->name('tugas-akhir.index');
         Route::post('/tugas-akhir', [TugasAkhirController::class, 'store'])->name('tugas-akhir.store');
+        // routes/web.php
+        Route::delete('/tugas-akhir/delete-file/{fileId}', [TugasAkhirController::class, 'deleteFile'])->name('tugas-akhir.delete-file');
+
+
 
         Route::get('/livecode', function () {
             return view('bootcamp.livecode.index');
         })->name('livecode');
-
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -74,4 +79,3 @@ Route::middleware(['auth'])->group(function () {
 // Route::get('/quiz', function () {
 //     return view('bootcamp.quiz.index');
 // });
-

@@ -133,6 +133,7 @@
                 </div>
             </div>
             <!-- card body -->
+            <!-- Bagian yang diubah pada index.blade.php -->
             <div class="card-body overflow-hidden">
                 <div class="w-full grid lg:grid-cols-2 gap-3">
                     <div
@@ -187,8 +188,8 @@
                                 <i class="w-6 h-6 text-green-500 mx-auto" data-feather="book"></i>
                             </div>
 
-                            <p class="text-gray-600">Progress Quiz</p>
-                            <span class="text-2xl font-bold text-gray-800">{{ $latestProgress->quiz ?? '0' }}%</span>
+                            <p class="text-gray-600">Nilai Quiz</p>
+                            <span class="text-2xl font-bold text-gray-800">{{ $latestProgress->quiz ?? '0' }}</span>
                             <span
                                 class="bg-yellow-200 w-fit mx-auto px-3 py-1 text-yellow-700 text-xs font-medium rounded-full block whitespace-nowrap text-center">{{ $latestProgress->module_name }}</span>
                         </div>
@@ -197,15 +198,19 @@
                             <div class="mb-3">
                                 <i class="w-6 h-6 text-green-500 mx-auto" data-feather="code"></i>
                             </div>
-                            <p class="text-gray-600">Progress Coding</p>
+                            <p class="text-gray-600">Nilai Coding</p>
+                            @php
+                                $assessment = $assessments->where('module_id', $latestProgress->module_id)->first();
+                            @endphp
                             <span
-                                class="text-2xl font-bold text-gray-800">{{ $latestProgress->livecode ? 'Selesai' : '0%' }}</span>
+                                class="text-2xl font-bold text-gray-800">{{ $assessment ? number_format($assessment->average_score, 2) : 'Belum dinilai' }}</span>
                             <span
                                 class="bg-red-200 w-fit mx-auto px-3 py-1 text-red-700 text-xs font-medium rounded-full block whitespace-nowrap text-center">{{ $latestProgress->module_name }}</span>
                         </div>
                     </div>
                 @endif
             </div>
+
         </div>
 
     </div>
@@ -328,6 +333,16 @@
                                             class="absolute top-2 right-2 bg-green-200 px-2 py-1 text-green-700 text-xs font-medium rounded-full inline-block whitespace-nowrap text-center">
                                             {{ $livecode->module_name }}
                                         </p>
+                                        @if ($livecode->average_score !== null)
+                                            <p
+                                                class="text-xs absolute bottom-3 left-3 bg-blue-200 px-2 py-1 text-blue-700 font-medium rounded-full inline-block whitespace-nowrap text-center">
+                                                Nilai :
+                                                {{ round($livecode->average_score, 2) }}</p>
+                                        @else
+                                            <p
+                                                class="text-xs absolute bottom-3 left-3 bg-blue-200 px-2 py-1 text-blue-700 font-medium rounded-full inline-block whitespace-nowrap text-center">
+                                                Belum Dinilai</p>
+                                        @endif
                                     </div>
                                     <div class="flex gap-3 my-2 px-3 items-center">
                                         <img src="{{ Auth::user()->pic ? asset('storage/' . Auth::user()->pic) : asset('assets/images/profile/default-profile2.jpg') }}"
