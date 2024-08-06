@@ -19,7 +19,7 @@
                                 <div class="card bg-white shadow-md rounded-md overflow-hidden flex flex-col hover:scale-105 hover:shadow-lg transition-all ease-in-out cursor-pointer"
                                     data-id="{{ $tugasAkhir->id }}" data-name="{{ $tugasAkhir->nama }}"
                                     data-description="{!! $tugasAkhir->deskripsi !!}" data-deadline="{{ $tugasAkhir->deadline }}"
-                                    data-criteria="{{ $tugasAkhir->kriteria_penilaian }}">
+                                    data-criteria="{{ $tugasAkhir->kriteria_penilaian }}" data-deskripsi-pdf="{{ $tugasAkhir->deskripsi_pdf }}">
                                     <div class="block relative">
                                         <img src="{{ asset('assets/images/blog/blog-img-1.jpg') }}" alt="">
                                         <p
@@ -84,6 +84,9 @@
                     const description = card.getAttribute('data-description');
                     const deadline = card.getAttribute('data-deadline');
                     let criteria = card.getAttribute('data-criteria');
+                    const deskripsi_pdf = card.getAttribute('data-deskripsi-pdf');
+
+                    const assetUrl = '{{ asset('storage') }}';
 
                     const tugasAkhirs = @json($tugasAkhirs->keyBy('id'));
                     const submission = tugasAkhirs[id].submission;
@@ -133,6 +136,9 @@
                                 ${criteria.map(criterion => `<span class="bg-blue-200 px-2 py-1 text-blue-700 text-sm font-medium rounded-md inline whitespace-nowrap text-center hover:scale-105 transition-all ease-in-out cursor-default">${criterion}</span>`).join('')}
                             </div>
                         </div>
+                        <div class="mt-4 w-full">
+                            <a href="${assetUrl}/${deskripsi_pdf}" target="_blank" class="bg-green-500 hover:bg-green-700 text-white py-2 my-4 flex justify-center transition-all esae-in-out text-center w-full rounded-md">Buka Deskripsi Lebih Lengkap</a>
+                        </div>
                         <form action="{{ route('user.tugas-akhir.store') }}" method="POST" enctype="multipart/form-data" class="py-4">
                             @csrf
                             <input type="hidden" id="tugas_akhir_id" name="tugas_akhir_id" value="${id}">
@@ -161,6 +167,7 @@
                             </div>
                         </form>
                     `;
+
 
                     document.querySelectorAll('.delete-file-button').forEach(button => {
                         button.addEventListener('click', function() {
