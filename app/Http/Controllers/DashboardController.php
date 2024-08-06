@@ -132,6 +132,9 @@ class DashboardController extends Controller
             $progressPercentage = 0;
         }
 
-        return view('user.index', compact('isEmpty', 'userLivecodes', 'allLivecodes', 'history', 'progress', 'latestProgress', 'progressPercentage', 'assessments'));
+        // Fetch banners
+        $banners = DB::table('banners')->get();
+
+        return view('user.index', compact('isEmpty', 'userLivecodes', 'allLivecodes', 'history', 'progress', 'latestProgress', 'progressPercentage', 'assessments', 'banners'));
     }
 }

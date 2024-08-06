@@ -8,19 +8,12 @@
             <div class="flex overflow-hidden justify-center items-center gap-3">
                 <div class="swiper-container overflow-hidden lg:rounded-md group">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img class="w-full object-cover object-center"
-                                src="{{ asset('assets/images/banner/HTML.png') }}" alt="">
-                        </div>
-                        <div class="swiper-slide">
-                            <img class="w-full object-cover object-center"
-                                src="{{ asset('assets/images/banner/HTML.png') }}" alt="">
-                        </div>
-                        <div class="swiper-slide">
-                            <img class="w-full object-cover object-center"
-                                src="{{ asset('assets/images/banner/HTML.png') }}" alt="">
-                        </div>
-                        <!-- Tambahkan lebih banyak gambar sesuai kebutuhan -->
+                        @foreach ($banners as $banner)
+                            <div class="swiper-slide">
+                                <img class="w-full object-cover h-full object-center"
+                                    src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->name }}">
+                            </div>
+                        @endforeach
                     </div>
                     <!-- Indikator Carousel -->
                     <div class="relative mx-auto w-full lg:w-1/2">
