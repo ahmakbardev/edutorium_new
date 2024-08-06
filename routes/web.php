@@ -53,8 +53,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/livecoding', [LiveCodingController::class, 'index'])->name('livecoding.index');
         Route::get('/livecoding/{moduleId}', [LiveCodingController::class, 'showTutorials'])->name('livecoding.show');
         Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
-        // Routes for quiz
-        Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
+
         Route::get('/quiz/{module_id}', [QuizController::class, 'show'])->name('quiz.show');
 
         // Route for saving quiz answers

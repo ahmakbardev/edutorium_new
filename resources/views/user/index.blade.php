@@ -4,7 +4,7 @@
     <div class="bg-indigo-600 px-8 pt-10 lg:pt-14 pb-16 flex justify-between items-end mb-3">
         <div class="flex flex-col gap-3">
 
-            @include('user.components.breadcrumb')
+            {{-- @include('user.components.breadcrumb') --}}
             <!-- title -->
             <h1 class="text-3xl text-white group">Selamat Datang <span
                     class="font-semibold border-b hover:border-b-2 transition-all ease-in-out cursor-default group-hover:text-4xl">Ahmad

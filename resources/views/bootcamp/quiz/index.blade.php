@@ -14,10 +14,12 @@
                     <!-- Quiz will be dynamically inserted here -->
                 </div>
                 <div class="flex justify-between mt-4">
+                    <button id="previous-question"
+                        class="py-2 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:pointer-events-none">Previous</button>
                     <button id="next-question"
                         class="py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-800 disabled:opacity-50 disabled:pointer-events-none">Next</button>
                     <button id="open-submit-modal"
-                        class="py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 disabled:pointer-events-none">Submit</button>
+                        class="py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 disabled:pointer-events-none hidden">Submit</button>
                 </div>
             </div>
         </div>
@@ -122,21 +124,23 @@
             let answers = [];
             const quizContainer = document.getElementById('quiz-container');
             const nextButton = document.getElementById('next-question');
+            const previousButton = document.getElementById('previous-question');
             const openSubmitModalButton = document.getElementById('open-submit-modal');
             const submitButton = document.getElementById('confirm-submit');
             const cancelSubmitButton = document.getElementById('cancel-submit');
 
             function renderQuestion() {
                 const question = quizData[currentQuestionIndex];
+                const savedAnswer = answers[currentQuestionIndex] ? answers[currentQuestionIndex].answer : null;
                 quizContainer.innerHTML = `
                     <div class="p-4 bg-white rounded-lg shadow">
                         <h2 class="text-2xl font-semibold mb-4">${question.question}</h2>
                         <div class="grid grid-cols-2 gap-4">
                             ${question.answers.map((option, index) => `
-                                                <label class="block bg-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-300">
-                                                    <input type="radio" name="answer" value="${option}" class="mr-2">${option}
-                                                </label>
-                                            `).join('')}
+                                    <label class="block bg-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-300">
+                                        <input type="radio" name="answer" value="${option}" class="mr-2" ${savedAnswer === option ? 'checked' : ''}>${option}
+                                    </label>
+                                `).join('')}
                         </div>
                     </div>
                 `;
@@ -145,10 +149,10 @@
             function nextQuestion() {
                 const selectedOption = document.querySelector('input[name="answer"]:checked');
                 if (selectedOption) {
-                    answers.push({
+                    answers[currentQuestionIndex] = {
                         question: quizData[currentQuestionIndex].question,
                         answer: selectedOption.value
-                    });
+                    };
                     currentQuestionIndex++;
                     if (currentQuestionIndex < quizData.length) {
                         renderQuestion();
@@ -161,13 +165,29 @@
                 }
             }
 
+            function previousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    const selectedOption = document.querySelector('input[name="answer"]:checked');
+                    if (selectedOption) {
+                        answers[currentQuestionIndex] = {
+                            question: quizData[currentQuestionIndex].question,
+                            answer: selectedOption.value
+                        };
+                    }
+                    currentQuestionIndex--;
+                    renderQuestion();
+                    handleNavigation();
+                }
+            }
+
             function handleNavigation() {
-                nextButton.disabled = currentQuestionIndex >= quizData.length - 1;
-                openSubmitModalButton.disabled = currentQuestionIndex !== quizData.length - 1;
+                previousButton.disabled = currentQuestionIndex === 0;
+                nextButton.classList.toggle('hidden', currentQuestionIndex === quizData.length - 1);
+                openSubmitModalButton.classList.toggle('hidden', currentQuestionIndex !== quizData.length - 1);
             }
 
             nextButton.addEventListener('click', nextQuestion);
-
+            previousButton.addEventListener('click', previousQuestion);
             openSubmitModalButton.addEventListener('click', openSubmitModal);
 
             function openSubmitModal() {
@@ -198,10 +218,10 @@
             function submitQuiz() {
                 const selectedOption = document.querySelector('input[name="answer"]:checked');
                 if (selectedOption) {
-                    answers.push({
+                    answers[currentQuestionIndex] = {
                         question: quizData[currentQuestionIndex].question,
                         answer: selectedOption.value
-                    });
+                    };
                 }
                 fetch('{{ route('user.submit.quiz') }}', {
                         method: 'POST',
