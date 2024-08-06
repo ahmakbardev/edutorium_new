@@ -21,9 +21,9 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
     <!-- Append version number to CSS file name -->
-    <link rel="stylesheet" href="{{ asset('css/app.css?v=1.06') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css?v=1.07') }}">
     <!-- Add cache-control headers for CSS and JavaScript files -->
-    <link rel="preload" href="{{ asset('css/app.css?v=1.06') }}" as="style" crossorigin="anonymous" />
+    <link rel="preload" href="{{ asset('css/app.css?v=1.07') }}" as="style" crossorigin="anonymous" />
 
     <link rel="stylesheet" href="{{ asset('assets/libs/apexcharts/dist/apexcharts.css') }}" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">

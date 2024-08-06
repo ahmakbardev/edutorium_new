@@ -129,7 +129,7 @@
                         <p class="mt-2"><strong class="inline">Deadline:</strong> <span class="bg-gray-200 px-2 py-1 text-gray-700 text-sm font-medium rounded-md inline whitespace-nowrap text-center w-fit">${deadline}</span></p>
                         <div class="mt-3 flex gap-2 items-center">
                             <strong>Kriteria Penilaian:</strong>
-                            <div class="flex gap-2 inline">
+                            <div class="flex gap-2 inline flex-wrap">
                                 ${criteria.map(criterion => `<span class="bg-blue-200 px-2 py-1 text-blue-700 text-sm font-medium rounded-md inline whitespace-nowrap text-center hover:scale-105 transition-all ease-in-out cursor-default">${criterion}</span>`).join('')}
                             </div>
                         </div>
