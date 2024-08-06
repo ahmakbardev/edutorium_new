@@ -36,33 +36,8 @@
             <div class="card h-full shadow">
                 <div class="border-b border-gray-300 px-5 py-4 flex items-center w-full justify-between">
                     <!-- title -->
-                    <div class="flex justify-between w-full">
-                        <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
-                            <li class="inline-flex items-center">
-                                <a class="flex items-center text-xs transition-all ease-in-out text-gray-500 hover:text-indigo-600 focus:outline-none focus:text-indigo-600"
-                                    href="#">Home</a>
-                                <svg class="flex-shrink-0 mx-2 overflow-visible h-4 w-4 text-gray-400"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="m9 18 6-6-6-6" />
-                                </svg>
-                            </li>
-                            <li class="inline-flex items-center">
-                                <a class="flex items-center text-xs transition-all ease-in-out text-gray-500 hover:text-indigo-600 focus:outline-none focus:text-indigo-600"
-                                    href="#">
-                                    Library
-                                    <svg class="flex-shrink-0 mx-2 overflow-visible h-4 w-4 text-gray-400"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="m9 18 6-6-6-6" />
-                                    </svg>
-                                </a>
-                            </li>
-                            <li class="inline-flex items-center text-xs transition-all ease-in-out font-semibold text-gray-800 truncate"
-                                aria-current="page">Data</li>
-                        </ol>
+                    <div class="flex justify-between w-full items-center">
+                        <h1 class="text-2xl font-semibold">Materi {{ $currentMateri->nama_materi }}</h1>
                         <a href="{{ route('user.dashboard') }}"
                             class="py-2 px-4 rounded-lg bg-red-600 text-white border-red-600 transition-all ease-in-out group flex items-center hover:bg-red-800 hover:border-red-800 active:bg-red-800 active:border-red-800 focus:outline-none focus:ring-4 focus:ring-red-300">Kembali
                             ke Beranda</a>

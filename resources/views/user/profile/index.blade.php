@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <!-- nav -->
-                <div class=" ">
+                {{-- <div class=" ">
                     <!-- list -->
                     <ul class="flex flex-no-wrap overflow-auto text-center text-gray-500 border-gray-300 border-t">
                         <li class="mr-2">
@@ -78,7 +78,7 @@
                                 class="inline-block p-4 text-gray-800 font-semibold border-t-2 border-transparent hover:text-indigo-600 hover:border-indigo-600">Activity</a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="mb-6 grid grid-cols-1 gap-x-6 gap-y-8 xl:grid-cols-2">
@@ -135,7 +135,7 @@
                 </div>
             </div>
             <!-- card -->
-            <div class="card shadow">
+            {{-- <div class="card shadow">
                 <!-- card body -->
                 <div class="card-body">
                     <!-- card title -->
@@ -357,7 +357,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

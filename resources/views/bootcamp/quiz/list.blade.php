@@ -40,7 +40,7 @@
                                         $quizStatus == 'Done' ||
                                         $quizStatus == 'Incomplete' ||
                                         $quizStatus == 'Start Your Module'
-                                            ? 'opacity-50 cursor-not-allowed'
+                                            ? 'hover:scale-105 hover:shadow-lg transition-all ease-in-out'
                                             : 'hover:scale-105 hover:shadow-lg transition-all ease-in-out';
                                 @endphp
                                 @if ($hasQuizzes && !in_array($module->id, $displayedModules))
@@ -51,7 +51,7 @@
                                         $slug = strtolower(str_replace(' ', '-', $firstMateri->nama_materi));
                                     @endphp
                                     @if ($firstMateri)
-                                        <a href="{{ $quizStatus == 'Available' ? route('user.quiz.show', ['module_id' => $module->id]) : '#' }}"
+                                        <a href="{{route('user.quiz.show', ['module_id' => $module->id])}}"
                                             class="bg-white shadow-md rounded-md overflow-hidden flex flex-col {{ $cardClass }}">
                                             <div class="block relative">
                                                 <img src="{{ $module->image ? asset('storage/' . $module->image) : asset('assets/images/blog/blog-img-1.jpg') }}"

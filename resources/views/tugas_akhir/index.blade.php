@@ -7,7 +7,7 @@
                 <div class="border-b border-gray-300 px-5 py-4 flex items-center w-full justify-between">
                     <!-- title -->
                     <div>
-                        <h4 class="font-semibold text-2xl">Kumpulkan Tugas Akhir</h4>
+                        <h4 class="font-semibold text-2xl">Tugas Akhir</h4>
                     </div>
                 </div>
 
