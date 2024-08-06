@@ -17,42 +17,29 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8 py-6">
                             @php
                                 $displayedModules = [];
+                                $previousModuleDone = true;
                             @endphp
                             @foreach ($modules as $module)
                                 @if (!in_array($module->id, $displayedModules))
                                     @php
                                         $displayedModules[] = $module->id;
-                                        $firstMateri = $materis->firstWhere('modul_id', $module->id);
-                                        $prevModuleCompleted = true;
-                                        $prevModuleId = $module->id - 1;
-                                        $currentModuleCompleted = $userProgress
-                                            ->where('module_id', $module->id)
-                                            ->whereNotNull('quiz')
-                                            ->whereNotNull('livecode')
-                                            ->isNotEmpty();
 
-                                        if ($prevModuleId > 0) {
-                                            $prevModuleProgress = $userProgress
-                                                ->where('module_id', $prevModuleId)
-                                                ->first();
-                                            $prevModuleCompleted =
-                                                $prevModuleProgress &&
-                                                $prevModuleProgress->quiz !== null &&
-                                                $prevModuleProgress->livecode !== null;
+                                        // Determine the status of the current module
+                                        if ($previousModuleDone) {
+                                            $status = $module->is_done ? 'Done' : 'Available';
+                                        } else {
+                                            $status = 'Locked';
                                         }
 
-                                        $status = $currentModuleCompleted
-                                            ? 'Done'
-                                            : ($prevModuleCompleted
-                                                ? 'Available'
-                                                : 'Locked');
+                                        $firstMateri = $materis->firstWhere('modul_id', $module->id);
                                     @endphp
+
                                     @if ($firstMateri)
                                         @php
                                             $slug = strtolower(str_replace(' ', '-', $firstMateri->nama_materi));
                                         @endphp
-                                        <a href="{{ $prevModuleCompleted ? route('user.bootcamp.modul.materi', ['modul' => $module->name, 'materi' => $slug]) : '#' }}"
-                                            class="bg-white shadow-md rounded-md overflow-hidden flex flex-col {{ $prevModuleCompleted ? 'hover:scale-105 hover:shadow-lg transition-all ease-in-out' : 'opacity-50 cursor-not-allowed' }}">
+                                        <a href="{{ $status != 'Locked' ? route('user.bootcamp.modul.materi', ['modul' => $module->name, 'materi' => $slug]) : '#' }}"
+                                            class="bg-white shadow-md rounded-md overflow-hidden flex flex-col {{ $status != 'Locked' ? 'hover:scale-105 hover:shadow-lg transition-all ease-in-out' : 'opacity-50 cursor-not-allowed' }}">
                                             <div class="block relative">
                                                 <img src="{{ $module->image ? asset('storage/' . $module->image) : asset('assets/images/blog/blog-img-1.jpg') }}"
                                                     class="h-40 max-h-40 w-full object-cover" alt="">
@@ -73,6 +60,11 @@
                                             </div>
                                         </a>
                                     @endif
+
+                                    @php
+                                        // Update the status for the next module
+                                        $previousModuleDone = $module->is_done;
+                                    @endphp
                                 @endif
                             @endforeach
                         </div>
