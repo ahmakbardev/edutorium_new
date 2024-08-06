@@ -20,7 +20,10 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <!-- Append version number to CSS file name -->
+    <link rel="stylesheet" href="{{ asset('assets/styles/css/app.css?v=1.01') }}">
+    <!-- Add cache-control headers for CSS and JavaScript files -->
+    <link rel="preload" href="{{ asset('assets/styles/css/app.css?v=1.01') }}" as="style" crossorigin="anonymous" />
 
     <link rel="stylesheet" href="{{ asset('assets/libs/apexcharts/dist/apexcharts.css') }}" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
