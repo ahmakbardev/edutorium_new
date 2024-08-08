@@ -78,7 +78,7 @@ class BootcampController extends Controller
         $original_materi_name = str_replace('-', ' ', ucwords($materi, '-'));
         $currentMateri = DB::table('materis')->where('nama_materi', $original_materi_name)->first();
 
-        // Mengambil urutan materi berikutnya dan sebelumnya
+        // Mengambil urutan materi berikutnya dan sebelumnya dari modul yang sama
         $nextMateri = DB::table('materis')
             ->where('modul_id', $currentMateri->modul_id)
             ->where('urutan_materi', '>', $currentMateri->urutan_materi)
@@ -86,6 +86,7 @@ class BootcampController extends Controller
             ->first();
 
         $prevMateri = DB::table('materis')
+            ->where('modul_id', $currentMateri->modul_id)
             ->where('urutan_materi', '<', $currentMateri->urutan_materi)
             ->orderBy('urutan_materi', 'desc')
             ->first();
@@ -143,6 +144,7 @@ class BootcampController extends Controller
 
         return view('bootcamp.materi.index', compact('module', 'currentMateri', 'nextMateri', 'prevMateri', 'quizExists', 'quizCompleted', 'livecodeCompleted', 'nextModule', 'nextModuleFirstMateri', 'livecodeExists', 'allModulesCompleted'));
     }
+
 
 
 
