@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $showTugasAkhirModal = false;
 
         if ($user) {
-            $fieldsToCheck = ['pic', 'bio', 'phone', 'sekolah'];
+            $fieldsToCheck = ['bio', 'phone', 'sekolah'];
             foreach ($fieldsToCheck as $field) {
                 if (is_null($user->$field) || $user->$field === '') {
                     $isProfileEmpty = true;
