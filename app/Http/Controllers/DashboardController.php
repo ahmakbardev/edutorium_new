@@ -37,26 +37,6 @@ class DashboardController extends Controller
                 }
             }
 
-            // // Step 1: Join modules with quizzes and livecode_tutorials
-            // $modulesWithQuizAndLivecode = DB::table('modules')
-            //     ->leftJoin('quizzes', 'modules.id', '=', 'quizzes.module_id')
-            //     ->leftJoin('livecode_tutorials', 'modules.id', '=', 'livecode_tutorials.module_id')
-            //     ->select('modules.id as module_id', 'quizzes.id as quiz_id', 'livecode_tutorials.id as livecode_id')
-            //     ->get();
-            // // dd($modulesWithQuizAndLivecode);
-
-            // // Step 2: Join the result with progress
-            // $modulesWithProgress = DB::table('modules')
-            //     ->leftJoin('progress', function ($join) {
-            //         $join->on('modules.id', '=', 'progress.module_id')
-            //             ->where('progress.user_id', Auth::id());
-            //     })
-            //     ->leftJoin('quizzes', 'modules.id', '=', 'quizzes.module_id')
-            //     ->leftJoin('livecode_tutorials', 'modules.id', '=', 'livecode_tutorials.module_id')
-            //     ->select('modules.id as module_id', 'progress.id as progress_id', 'progress.quiz as progress_quiz', 'progress.livecode as progress_livecode', 'quizzes.id as quiz_id', 'livecode_tutorials.id as livecode_id')
-            //     ->get();
-            // // dd($modulesWithProgress);
-
             // Step 3: Apply the conditions to check if all modules are completed
             $allModulesCompleted = DB::table('modules')
                 ->leftJoin('progress', function ($join) {
@@ -83,13 +63,14 @@ class DashboardController extends Controller
                 ->whereNull('progress.id')
                 ->doesntExist();
 
-            // dd($allModulesCompleted);
+            // Check if the user has already submitted the final project
+            $finalSubmissionExists = DB::table('tugas_akhir_submissions')
+                ->where('user_id', Auth::id())
+                ->exists();
 
-            if ($allModulesCompleted) {
+            if ($allModulesCompleted && !$finalSubmissionExists) {
                 $showTugasAkhirModal = true;
             }
-
-            // dd($showTugasAkhirModal);
         }
 
         $isEmpty = true;
@@ -155,11 +136,9 @@ class DashboardController extends Controller
         // Calculate the average score for each assessment
         $assessments = collect();
         foreach ($livecodeAssessments as $assessment) {
-            // Clean up the JSON string and decode it
             $cleanedJsonString = str_replace('\\"', '"', trim($assessment->kriteria_penilaian, '"'));
             $kriteriaPenilaian = json_decode($cleanedJsonString, true);
 
-            // Check if JSON decoding was successful
             if (json_last_error() === JSON_ERROR_NONE && is_array($kriteriaPenilaian)) {
                 $totalScore = array_sum(array_column($kriteriaPenilaian, 'nilai'));
                 $averageScore = $totalScore / count($kriteriaPenilaian);
@@ -171,13 +150,11 @@ class DashboardController extends Controller
             $assessments->push($assessment);
         }
 
-        // Combine userLivecodes with their respective assessments
         foreach ($userLivecodes as $livecode) {
             $livecodeAssessment = $assessments->firstWhere('module_id', $livecode->module_id);
             $livecode->average_score = $livecodeAssessment->average_score ?? null;
         }
 
-        // Calculate the progress percentage
         if ($latestProgress) {
             $totalMateri = DB::table('materis')
                 ->where('modul_id', $latestProgress->module_id)
@@ -187,14 +164,11 @@ class DashboardController extends Controller
 
             $progressPercentage = ($completedMateri / $totalMateri) * 100;
 
-            // Check if all materi are completed
             $isAllCompleted = $completedMateri == $totalMateri;
 
             if ($isAllCompleted) {
-                // User has completed all materi, set the progress percentage to 100
                 $progressPercentage = 100;
             } else {
-                // Get the next materi
                 $currentMateri = DB::table('materis')
                     ->where('modul_id', $latestProgress->module_id)
                     ->whereIn('urutan_materi', json_decode($latestProgress->materi, true))
@@ -211,7 +185,6 @@ class DashboardController extends Controller
             $progressPercentage = 0;
         }
 
-        // Fetch banners
         $banners = DB::table('banners')->get();
 
         return view('user.index', compact(
