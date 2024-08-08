@@ -7,10 +7,10 @@
         <div class="text-green-500 text-sm mt-2">{{ session('success') }}</div>
     @endif
     <form wire:submit.prevent="login" class="mt-8 flex flex-col">
-        <label for="email">Email</label>
-        <input type="email" name="email" placeholder="Masukkan emailmu disini" wire:model="email"
+        <label for="emailOrName">Email atau Nama</label>
+        <input type="text" name="emailOrName" placeholder="Masukkan email atau nama disini" wire:model="emailOrName"
             class="mb-3 outline-none rounded-lg border py-2 px-px md:px-3">
-        @error('email')
+        @error('emailOrName')
             <span class="text-red-500 text-sm">{{ $message }}</span>
         @enderror
         <label for="password">Password</label>
@@ -51,7 +51,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Email atau password salah.',
+                    text: 'Email, nama, atau password salah.',
                 });
             });
         });
