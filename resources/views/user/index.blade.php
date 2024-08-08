@@ -685,7 +685,7 @@
 
                 const continueLearningButton = $('#historyContinueLearning');
                 const urlContinueLearning = posttest && quiz ?
-                    `/user/bootcamp/modul/${module}/Apa itu HTML` :
+                    `/user/bootcamp/modul/${module}/${materi}` :
                     `/user/bootcamp/modul/${module}/${materi}`;
                 continueLearningButton.text(posttest && quiz ? 'Pelajari Materi Kembali' :
                     'Lanjutkan Belajar');
