@@ -245,7 +245,7 @@
                 const resultModal = document.getElementById('result-modal');
                 const resultModalContent = document.getElementById('result-modal-content');
                 const quizScore = document.getElementById('quiz-score');
-                quizScore.textContent = `${score}%`;
+                quizScore.textContent = `${score}`;
                 resultModal.classList.remove('hidden');
                 setTimeout(() => {
                     resultModalContent.classList.remove('translate-y-4', 'opacity-0');
