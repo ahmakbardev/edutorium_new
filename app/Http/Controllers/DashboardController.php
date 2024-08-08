@@ -107,6 +107,7 @@ class DashboardController extends Controller
             ->whereNotNull('livecode')
             ->select('progress.*', 'modules.name as module_name')
             ->orderBy('progress.created_at', 'desc')
+            ->orderBy('progress.module_id', 'desc')
             ->get();
 
         $allLivecodes = DB::table('progress')
@@ -115,6 +116,7 @@ class DashboardController extends Controller
             ->whereNotNull('livecode')
             ->select('progress.*', 'modules.name as module_name', 'users.name as user_name', 'users.pic as user_pic')
             ->orderBy('progress.created_at', 'desc')
+            ->orderBy('progress.module_id', 'desc')
             ->get();
 
 
