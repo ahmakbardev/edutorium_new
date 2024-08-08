@@ -119,8 +119,9 @@ class DashboardController extends Controller
 
         $allLivecodes = DB::table('progress')
             ->join('modules', 'progress.module_id', '=', 'modules.id')
+            ->join('users', 'progress.user_id', '=', 'users.id') // Menambahkan join ke tabel users
             ->whereNotNull('livecode')
-            ->select('progress.*', 'modules.name as module_name')
+            ->select('progress.*', 'modules.name as module_name', 'users.name as user_name', 'users.pic as user_pic')
             ->get();
 
         $progress = DB::table('progress')

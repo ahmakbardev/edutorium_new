@@ -399,10 +399,10 @@
                                         </p>
                                     </div>
                                     <div class="flex gap-3 my-2 px-3 items-center">
-                                        <img src="{{ Auth::user()->pic ? asset('storage/' . Auth::user()->pic) : asset('assets/images/profile/default-profile2.jpg') }}"
+                                        <img src="{{ $livecode->user_pic ? asset('storage/' . $livecode->user_pic) : asset('assets/images/profile/default-profile2.jpg') }}"
                                             class="w-10 h-10 rounded-full" alt="">
                                         <div class="flex flex-col">
-                                            <h1 class="text-base">{{ Auth::user()->name }}</h1>
+                                            <h1 class="text-base">{{ $livecode->user_name }}</h1>
                                             <p class="text-xs">
                                                 {{ \Carbon\Carbon::parse($livecode->created_at)->format('d F Y') }}</p>
                                         </div>
@@ -414,6 +414,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Modal HTML -->
         <div id="livecodeModal"
