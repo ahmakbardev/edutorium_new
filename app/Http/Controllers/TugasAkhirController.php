@@ -37,7 +37,7 @@ class TugasAkhirController extends Controller
             'additional_info' => 'nullable|string',
             'github_url' => 'nullable|url',
             'web_url' => 'nullable|url',
-            'files.*' => 'file|mimes:pdf|max:3072'
+            'files.*' => 'nullable|file|mimes:pdf|max:3072'
         ]);
 
         $submission = TugasAkhirSubmission::updateOrCreate(

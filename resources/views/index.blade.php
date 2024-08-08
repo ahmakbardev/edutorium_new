@@ -18,7 +18,8 @@
                         src="{{ asset('assets/images/hero/underline-hero.svg') }}" class="w-fit" alt=""></span>,
                 Bootcamp dan Real-Time Coding hanya di Edutorium!
             </h4>
-            <button class="btn-fill w-fit mt-10 hover:bg-primary-800 hover:text-white">Belajar Sekarang!</button>
+            <a href="{{ route('user.bootcamp.modul.modul') }}"
+                class="btn-fill w-fit mt-10 hover:bg-primary-800 hover:text-white">Belajar Sekarang!</a>
         </div>
         <div id="lottie-container" class="w-1/2 2xl:w-2/5 object-cover z-[1] order-1 lg:order-2"></div>
     </div>
@@ -81,16 +82,26 @@
     <div class="px-6 lg:px-32 flex flex-col lg:items-center mt-10">
         <h1 class="text-5xl font-bold">Portfolio Siswa <span class="text-primary-900">Edutorium</span></h1>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 w-full gap-8 my-10">
-            @for ($i = 0; $i < 9; $i++)
-                <div class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden hover:scale-105 transition-all ease-in-out duration-300">
+            @foreach ($submissions as $submission)
+                @php
+                    $thumbnailUrl = $submission->web_url
+                        ? 'https://s2.googleusercontent.com/s2/favicons?domain=' .
+                            parse_url($submission->web_url, PHP_URL_HOST)
+                        : asset('assets/images/hero/default.png');
+                @endphp
+                <div
+                    class="flex flex-col bg-white shadow-2xl rounded-xl overflow-hidden hover:scale-105 transition-all ease-in-out duration-300">
                     <img src="{{ asset('assets/images/hero/default.png') }}" class="max-h-48 w-full object-cover"
-                        alt="">
+                        alt="Website Thumbnail">
                     <div class="flex flex-col gap-px px-5 py-4">
-                        <h1 class="text-lg font-semibold">Ahmad Akbar</h1>
-                        <p class="text-sm">12 Juni 2024.</p>
+                        <h1 class="text-lg font-semibold">{{ $submission->user->name }}</h1>
+                        <p class="text-sm">{{ $submission->created_at->format('d F Y') }}</p>
+                        <a href="{{ $submission->web_url }}" class="text-blue-500 hover:underline" target="_blank">Lihat
+                            Portfolio</a>
                     </div>
                 </div>
-            @endfor
+            @endforeach
+
         </div>
     </div>
 @endsection

@@ -1,7 +1,7 @@
 <div id="customModal"
     class="fixed inset-0 z-50 flex items-center justify-center overflow-y-hidden bg-black bg-opacity-50 transition-opacity duration-300 hidden opacity-0">
     <div
-        class="modal-content bg-white rounded-lg w-5/6 h-5/6 px-3 py-5 md:px-8 md:py-8 transform translate-y-16 opacity-0 transition-transform duration-300 ease-in-out">
+        class="modal-content bg-white rounded-lg w-5/6 h-5/6 px-3 py-5 md:px-8 md:py-8 transform translate-y-16 opacity-0 transition-transform duration-1000 ease-in-out">
         <!-- Konten modal -->
         <div
             class="custom-art relative px-2 md:px-5 lg:px-0 max-lg:flex max-lg:flex-col grid place-content-center h-full gap-4">

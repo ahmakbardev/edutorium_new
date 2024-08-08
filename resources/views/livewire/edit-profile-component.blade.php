@@ -110,7 +110,7 @@
             });
 
             setTimeout(() => {
-                window.location.href = "{{ route('user.profile.index') }}";
+                window.location.href = "{{ route('user.dashboard') }}";
             }, 2000);
         });
     </script>

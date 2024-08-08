@@ -2,23 +2,34 @@
 @extends('user.layouts.layout')
 
 @section('content')
-    <div class="mx-6 my-10 grid grid-cols-1 grid-rows-1 grid-flow-row-dense gap-6">
+    <div class="mx-6 mb-10 grid grid-cols-1 grid-rows-1 grid-flow-row-dense gap-6 h-fit relative">
+        <button id="still-confused-button"
+            class="fixed top-20 right-5 flex gap-3 items-center bg-primary-500 rounded-full py-2 px-4 z-[2]">
+            <i data-feather="info" class="animate-pulse"></i>
+            <p>Masih Bingung?</p>
+        </button>
+
         <!-- Preview Area -->
-        <div class="w-full min-h-[768px]">
-            <iframe id="preview" class="w-full h-full relative bg-white  overflow-y-auto max-h-[768px] rounded-md "
+        <div class="w-full min-h-[768px] flex flex-col overflow-visible relative">
+            <h1 class="text-2xl font-semibold my-3 pb-2 border-b-2 border-black">Preview Livecode</h1>
+            <iframe id="preview"
+                class="w-full h-full relative bg-white  overflow-y-auto min-h-[768px] max-h-[768px] rounded-md "
                 data-simplebar=""></iframe>
         </div>
 
         <!-- Button Controls -->
         <div id="control-buttons"
             class="flex justify-between mb-4 fixed bottom-[330px] left-0 right-0 px-6 transition-transform duration-300">
-            <div class="flex gap-4">
+            <div class="flex gap-4 w-1/2 items-end">
+                <h1 class="bg-gray-900 text-white font-semibold py-2 px-3 h-fit rounded-md text-lg">Tulis Kode Kalian di
+                    bawah
+                    ini!</h1>
                 <button id="tailwind-btn"
-                    class="p-2 ml-20 bg-blue-500 hover:bg-blue-400 rounded text-white transition-all ease-in-out"
+                    class="p-2 ml-20 bg-blue-500 hover:bg-blue-400 rounded h-fit text-white transition-all ease-in-out"
                     data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Aktifkan Framework Tailwind"
                     type="button">Tailwind</button>
                 <button id="bootstrap-btn"
-                    class="p-2 bg-purple-500 hover:bg-purple-400 rounded text-white transition-all ease-in-out"
+                    class="p-2 bg-purple-500 hover:bg-purple-400 rounded h-fit text-white transition-all ease-in-out"
                     data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Aktifkan Framework Bootstrap"
                     type="button">Bootstrap</button>
             </div>
@@ -150,7 +161,130 @@
             </div>
         </div>
     </div>
+    <!-- Modal HTML untuk Tutorial Penggunaan Fitur Livecode -->
+    <div id="livecodeFeatureTutorialModal"
+        class="fixed z-10 inset-0 overflow-y-auto transition-opacity ease-in-out duration-300 hidden">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity ease-in-out duration-300" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75 transition-all ease-in-out duration-300"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div id="livecodeFeatureTutorialModalContent"
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl w-full max-w-3xl transform transition-all ease-in-out duration-300 sm:my-8 sm:align-middle sm:w-full opacity-0 translate-y-4 blur-sm">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
+                    <div class="sm:flex flex-col sm:items-start w-full">
+
+                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                            <div class="flex items-center gap-2">
+                                <div
+                                    class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                    <i data-feather="info"></i>
+                                </div>
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                    Livecode Feature Tutorial
+                                </h3>
+                            </div>
+                            <div class="mt-2 relative">
+                                <div class="splide splide-livecode relative">
+                                    <div class="splide__track">
+                                        <ul class="splide__list">
+                                            <li class="splide__slide  px-20 py-5 h-fit">
+                                                <h5 class="font-semibold text-xl text-center">Livecoding Edutorium</h5>
+                                                <p class=" text-xl text-center">Selamat Datang di Livecoding Edutorium</p>
+                                                <div id="lottie-animation" class="w-full h-72 object-cover"></div>
+                                                <!-- Lottie animation container -->
+                                            </li>
+
+                                            <li class="splide__slide  px-20 py-5 h-fit">
+                                                <h5 class="text-lg font-semibold">Tutorial Coding</h5>
+                                                <p>Lihat Tutorial button dengan klik button ini.</p>
+                                                <img src="{{ asset('assets/images/livecode/tutorial_coding.png') }}"
+                                                    class="mt-5 border p-2 rounded-lg" alt="">
+                                            </li>
+                                            <li class="splide__slide  px-20 py-5 h-fit">
+                                                <h5 class="text-lg font-semibold">Preview Area</h5>
+                                                <p>Di area ini, Anda dapat melihat hasil dari kode yang Anda tulis.</p>
+                                                <img src="{{ asset('assets/images/livecode/preview.png') }}"
+                                                    class="mt-5 border p-2 rounded-lg" alt="">
+                                            </li>
+                                            <li class="splide__slide  px-20 py-5 h-fit">
+                                                <h5 class="text-lg font-semibold">Control Buttons</h5>
+                                                <p>Gunakan tombol ini untuk berinteraksi dengan livecode, termasuk submit
+                                                    kode
+                                                    Anda, membuka tutorial, dan mengganti framework CSS.</p>
+                                                <img src="{{ asset('assets/images/livecode/control.png') }}"
+                                                    class="mt-5 border p-2 rounded-lg" alt="">
+                                                <h5 class="text-lg font-semibold mt-6">CSS Framework</h5>
+                                                <p class="mt-5 p-2 rounded-lg">Kamu juga bisa menggunakan Framework CSS
+                                                    dengan klik
+                                                    button Tailwind atau Bootstrap ini. <br>
+                                                    untuk dokumentasi lengkap bisa dilihat dilink ini
+                                                <ul class="mt-3">
+                                                    <li class="list-disc">Tailwind Framework : <a
+                                                            class="underline text-primary-700 hover:text-primary-900 transition-all ease-in-out"
+                                                            href="https://tailwindcss.com/docs/installation"
+                                                            target="_blank">Tailwind</a></li>
+                                                    <li class="list-disc">Bootstrap Framework : <a
+                                                            class="underline text-primary-700 hover:text-primary-900 transition-all ease-in-out"
+                                                            href="https://getbootstrap.com/docs/5.2/getting-started/introduction/"
+                                                            target="_blank">Boostrap</a></li>
+                                                </ul>
+                                                </p>
+                                                <img src="{{ asset('assets/images/livecode/css_framework.png') }}"
+                                                    class="mt-5 h-32 border p-2 rounded-lg" alt="">
+                                            </li>
+                                            <li class="splide__slide  px-20 py-5 h-fit">
+                                                <h5 class="text-lg font-semibold">Livecode Area</h5>
+                                                <p>Di area ini, Anda dapat menulis kode HTML, CSS, dan JavaScript Anda.</p>
+                                                <img src="{{ asset('assets/images/livecode/code_box.png') }}"
+                                                    class="mt-5 border p-2 rounded-lg" alt="">
+                                            </li>
+                                            <li class="splide__slide  px-20 py-5 h-fit">
+                                                <h5 class="text-lg font-semibold">Sidebar</h5>
+                                                <p>Gunakan sidebar untuk berpindah antara editor HTML, CSS, dan JavaScript.
+                                                </p>
+                                                <img src="{{ asset('assets/images/livecode/code_button.png') }}"
+                                                    class="h-1/2 object-contain mt-5 border p-2 rounded-lg"
+                                                    alt="">
+                                            </li>
+                                            <li class="splide__slide  px-20 py-5 h-fit w-full">
+                                                <h5 class="text-lg font-semibold">Submit Projek</h5>
+                                                <p>Submit Kode Projek kamu disini.
+                                                </p>
+                                                <div class="w-full flex flex-col">
+                                                    <img src="{{ asset('assets/images/livecode/submit.png') }}"
+                                                        class="h-1/2 object-contain mt-5 border p-2 rounded-lg"
+                                                        alt="">
+                                                    <img src="{{ asset('assets/images/livecode/submit_modal.png') }}"
+                                                        class="h-52 object-contain mt-5 border p-2 rounded-lg"
+                                                        alt="">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="splide__arrows relative">
+                                        {{-- <button class="splide__arrow splide__arrow--prev">Previous</button>
+                                        <button class="splide__arrow splide__arrow--next">Next</button> --}}
+                                    </div>
+                                    {{-- <div class="splide__pagination"></div> --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        id="close-livecode-feature-tutorial">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+
 
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
@@ -175,6 +309,71 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/search/jump-to-line.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/search/matchesonscrollbar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/search/match-highlighter.min.js"></script>
+
+    <!-- Splide.js CSS and JS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.9/dist/css/splide.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.9/dist/js/splide.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(tooltipElement) {
+                new bootstrap.Tooltip(tooltipElement);
+            });
+
+            // Slider Setup using Splide.js
+            new Splide('.splide-livecode', {
+                type: 'loop',
+                perPage: 1,
+                pagination: true,
+                arrows: true,
+            }).mount();
+
+            // Lottie animation setup
+            const lottieAnimation = lottie.loadAnimation({
+                container: document.getElementById(
+                    'lottie-animation'), // the dom element that will contain the animation
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: '{{ asset('assets/images/lottie/yeay.json') }}' // the path to the animation json
+            });
+
+            // Modal Setup
+            const livecodeFeatureTutorialModal = document.getElementById('livecodeFeatureTutorialModal');
+            const livecodeFeatureTutorialModalContent = document.getElementById(
+                'livecodeFeatureTutorialModalContent');
+            const closeTutorialBtn = document.getElementById('close-livecode-feature-tutorial');
+            const stillConfusedButton = document.getElementById('still-confused-button');
+
+            function showTutorialModal() {
+                livecodeFeatureTutorialModal.classList.remove('hidden');
+                setTimeout(() => {
+                    livecodeFeatureTutorialModalContent.classList.remove('opacity-0', 'translate-y-4',
+                        'blur-sm');
+                    livecodeFeatureTutorialModalContent.classList.add('opacity-100', 'translate-y-0',
+                        'blur-none');
+                }, 10); // delay for smooth transition
+            }
+
+            // Tampilkan modal secara otomatis saat halaman diakses
+            showTutorialModal();
+
+            closeTutorialBtn.addEventListener('click', () => {
+                livecodeFeatureTutorialModalContent.classList.add('opacity-0', 'translate-y-4', 'blur-sm');
+                livecodeFeatureTutorialModalContent.classList.remove('opacity-100', 'translate-y-0',
+                    'blur-none');
+                setTimeout(() => {
+                    livecodeFeatureTutorialModal.classList.add('hidden');
+                }, 300); // match the duration of the animation
+            });
+
+            // Show tutorial modal on "Masih Bingung?" button click
+            stillConfusedButton.addEventListener('click', showTutorialModal);
+        });
+    </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -520,9 +719,7 @@
                                 setTimeout(() => {
                                     confirmSubmitModal.classList.add(
                                         'hidden');
-                                    window.location.href = data.redirect +
-                                        '?message=' + encodeURIComponent(
-                                            data.message);
+                                    checkQuizAndRedirect(module_id);
                                 }, 300); // match the duration of the animation
                             }
                         }).catch(error => {
@@ -530,11 +727,24 @@
                             // Handle error
                         });
                     });
-
-
                 });
             });
 
+            function checkQuizAndRedirect(moduleId) {
+                fetch(`/check-quiz-progress/${moduleId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.hasQuiz) {
+                            window.location.href = `/user/quiz/${moduleId}`;
+                        } else {
+                            window.location.href = `/user/dashboard`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        // window.location.href = `/user/dashboard`;
+                    });
+            }
 
 
             // Snippets and Autocomplete

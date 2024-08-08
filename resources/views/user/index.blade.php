@@ -21,6 +21,14 @@
         @include('user.components.ads-modal')
         {{ session()->forget('just_logged_in') }} <!-- Remove the session after displaying the modal -->
     @endif
+    @if ($showSelamatDatangModal)
+        @include('user.components.selamatdataModal')
+    @endif
+    @include('user.components.selamatdataModal')
+    @include('user.components.profileModal')
+
+
+    @include('user.components.alertTugasAkhir')
     <div class="-mt-10 mx-6 grid grid-cols-1 xl:grid-cols-3 grid-rows-1 grid-flow-row-dense gap-6">
         <div class="xl:col-span-2">
             <div class="card h-full shadow">
@@ -121,10 +129,10 @@
                 <h4 class="text-base">Progres Kamu</h4>
                 <!-- dropdown -->
                 <div class="dropdown leading-4">
-                    <button class="text-gray-600 p-1 hover:bg-gray-300 rounded-full transition-all" type="button"
+                    {{-- <button class="text-gray-600 p-1 hover:bg-gray-300 rounded-full transition-all" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i data-feather="more-vertical" class="w-4 h-4"></i>
-                    </button>
+                    </button> --}}
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Edit Profil</a></li>
                         <li><a class="dropdown-item" href="#">Histori Bootcamp</a></li>
@@ -169,7 +177,7 @@
                         @endif
                     </div>
                 </div>
-                @if ($latestProgress)
+                {{-- @if ($latestProgress)
                     <div class="grid grid-cols-3 py-4">
                         <!-- content -->
                         <div class="text-center">
@@ -208,7 +216,7 @@
                                 class="bg-red-200 w-fit mx-auto px-3 py-1 text-red-700 text-xs font-medium rounded-full block whitespace-nowrap text-center">{{ $latestProgress->module_name }}</span>
                         </div>
                     </div>
-                @endif
+                @endif --}}
             </div>
 
         </div>

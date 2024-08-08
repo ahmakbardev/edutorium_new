@@ -38,9 +38,9 @@
                     <!-- title -->
                     <div class="flex justify-between w-full items-center">
                         <h1 class="text-2xl font-semibold">Materi {{ $currentMateri->nama_materi }}</h1>
-                        <a href="{{ route('user.dashboard') }}"
-                            class="py-2 px-4 rounded-lg bg-red-600 text-white border-red-600 transition-all ease-in-out group flex items-center hover:bg-red-800 hover:border-red-800 active:bg-red-800 active:border-red-800 focus:outline-none focus:ring-4 focus:ring-red-300">Kembali
-                            ke Beranda</a>
+                        <a href="{{ route('user.bootcamp.modul.modul') }}"
+                            class="py-2 px-4 rounded-lg bg-primary-600 text-white border-primary-600 transition-all ease-in-out group flex items-center hover:bg-primary-800 hover:border-primary-800 active:bg-primary-800 active:border-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300">Kembali
+                            ke List Modul</a>
                     </div>
                 </div>
 
@@ -71,16 +71,7 @@
                                 data-feather="chevron-right"></i>
                         </a>
                     @else
-                        @if ($quizExists && !$quizCompleted)
-                            <a href="{{ route('user.quiz.show', ['module_id' => $module->id]) }}"
-                                class="py-2 pl-4 pr-2 rounded-lg bg-green-600 text-white border-green-600 transition-all ease-in-out group flex items-center hover:bg-green-800 hover:border-green-800 active:bg-green-800 active:border-green-800 focus:outline-none focus:ring-4 focus:ring-green-300">
-                                <p>
-                                    Mulai Kuis
-                                </p>
-                                <i class="w-6 h-6 text-white group-hover:translate-x-1 transition-all ease-in-out"
-                                    data-feather="chevron-right"></i>
-                            </a>
-                        @elseif ($quizCompleted && !$livecodeCompleted)
+                        @if ($livecodeExists && !$livecodeCompleted)
                             <a href="{{ route('user.livecoding.show', ['moduleId' => $module->id]) }}"
                                 class="py-2 pl-4 pr-2 rounded-lg bg-blue-600 text-white border-blue-600 transition-all ease-in-out group flex items-center hover:bg-blue-800 hover:border-blue-800 active:bg-blue-800 active:border-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300">
                                 <p>
@@ -89,10 +80,36 @@
                                 <i class="w-6 h-6 text-white group-hover:translate-x-1 transition-all ease-in-out"
                                     data-feather="chevron-right"></i>
                             </a>
+                        @elseif ($quizExists && !$quizCompleted)
+                            <a href="{{ route('user.quiz.show', ['module_id' => $module->id]) }}"
+                                class="py-2 pl-4 pr-2 rounded-lg bg-green-600 text-white border-green-600 transition-all ease-in-out group flex items-center hover:bg-green-800 hover:border-green-800 active:bg-green-800 active:border-green-800 focus:outline-none focus:ring-4 focus:ring-green-300">
+                                <p>
+                                    Mulai Kuis
+                                </p>
+                                <i class="w-6 h-6 text-white group-hover:translate-x-1 transition-all ease-in-out"
+                                    data-feather="chevron-right"></i>
+                            </a>
+                        @elseif (!$livecodeExists && !$quizExists && $nextModule && $nextModuleFirstMateri)
+                            <a href="{{ route('user.bootcamp.modul.materi', ['modul' => strtolower($nextModule->name), 'materi' => strtolower(str_replace(' ', '-', $nextModuleFirstMateri->nama_materi))]) }}"
+                                class="py-2 pl-4 pr-2 rounded-lg bg-indigo-600 text-white border-indigo-600 transition-all ease-in-out group flex items-center hover:bg-indigo-800 hover:border-indigo-800 active:bg-indigo-800 active:border-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                                <p>
+                                    Pelajari Materi Selanjutnya
+                                </p>
+                                <i class="w-6 h-6 text-white group-hover:translate-x-1 transition-all ease-in-out"
+                                    data-feather="chevron-right"></i>
+                            </a>
+                        @elseif ($allModulesCompleted)
+                            <a href="{{ route('user.dashboard') }}"
+                                class="py-2 pl-4 pr-2 rounded-lg bg-green-600 text-white border-green-600 transition-all ease-in-out group flex items-center hover:bg-green-800 hover:border-green-800 active:bg-green-800 active:border-green-800 focus:outline-none focus:ring-4 focus:ring-green-300">
+                                <p>
+                                    Materi Selesai
+                                </p>
+                                <i class="w-6 h-6 text-white group-hover:translate-x-1 transition-all ease-in-out"
+                                    data-feather="chevron-right"></i>
+                            </a>
                         @endif
                     @endif
                 </div>
-
 
             </div>
         </div>

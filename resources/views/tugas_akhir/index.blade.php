@@ -19,7 +19,8 @@
                                 <div class="card bg-white shadow-md rounded-md overflow-hidden flex flex-col hover:scale-105 hover:shadow-lg transition-all ease-in-out cursor-pointer"
                                     data-id="{{ $tugasAkhir->id }}" data-name="{{ $tugasAkhir->nama }}"
                                     data-description="{!! $tugasAkhir->deskripsi !!}" data-deadline="{{ $tugasAkhir->deadline }}"
-                                    data-criteria="{{ $tugasAkhir->kriteria_penilaian }}" data-deskripsi-pdf="{{ $tugasAkhir->deskripsi_pdf }}">
+                                    data-criteria="{{ $tugasAkhir->kriteria_penilaian }}"
+                                    data-deskripsi-pdf="{{ $tugasAkhir->deskripsi_pdf }}">
                                     <div class="block relative">
                                         <img src="{{ asset('assets/images/blog/blog-img-1.jpg') }}" alt="">
                                         <p
@@ -144,22 +145,23 @@
                             <input type="hidden" id="tugas_akhir_id" name="tugas_akhir_id" value="${id}">
                             <div class="mb-4">
                                 <label for="additional_info" class="block text-sm font-medium text-gray-700">Informasi Tambahan</label>
-                                <textarea id="additional_info" name="additional_info" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${submission ? submission.additional_info : ''}</textarea>
+                                <textarea id="additional_info" name="additional_info" rows="4" placeholder="Masukkan Nama, Kelas, Nama Projek" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">${submission ? submission.additional_info : ''}</textarea>
                             </div>
-                            <div class="mb-4">
-                                <label for="github_url" class="block text-sm font-medium text-gray-700">URL GitHub (Opsional)</label>
-                                <input type="url" id="github_url" name="github_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${submission ? submission.github_url : ''}">
-                            </div>
-                            <div class="mb-4">
-                                <label for="web_url" class="block text-sm font-medium text-gray-700">URL Web (Opsional)</label>
-                                <input type="url" id="web_url" name="web_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${submission ? submission.web_url : ''}">
-                            </div>
-                            <div class="mb-4">
+
+                            <div class="mb-4 hidden">
                                 <label for="files" class="block text-sm font-medium text-gray-700">Upload File (PDF, max 3MB per file)</label>
                                 <div id="file-uploads">
                                     ${filesHtml}
                                 </div>
                                 <button type="button" id="add-file-upload" class="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">Tambah File</button>
+                            </div>
+                            <div class="mb-4">
+                                <label for="github_url" class="block text-sm font-medium text-gray-700">URL GitHub</label>
+                                <input type="url" id="github_url" name="github_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2" placeholder="Masukkan Link Github disini" value="${submission ? submission.github_url : ''}">
+                            </div>
+                            <div class="mb-4">
+                                <label for="web_url" class="block text-sm font-medium text-gray-700">URL Web</label>
+                                <input type="url" id="web_url" name="web_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2" placeholder="Masukkan Link Vercel disini" value="${submission ? submission.web_url : ''}">
                             </div>
                             <div class="flex justify-end">
                                 <button type="button" id="close-modal" class="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md mr-2">Batal</button>
@@ -167,6 +169,7 @@
                             </div>
                         </form>
                     `;
+
 
 
                     document.querySelectorAll('.delete-file-button').forEach(button => {

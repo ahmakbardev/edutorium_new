@@ -8,7 +8,7 @@
             <ul class="flex gap-5 items-center">
                 <li class="text-sm">Beranda</li>
                 <li class="text-sm"> <a href="{{ route('user.bootcamp.modul.modul') }}">Bootcamp</a></li>
-                <li class="text-sm">Tentang</li>
+                {{-- <li class="text-sm">Tentang</li> --}}
             </ul>
         </div>
         <div class="hidden md:flex gap-1 items-center">
@@ -39,7 +39,6 @@
         <ul class="flex flex-col gap-4 px-6 py-4">
             <li class="text-sm">Beranda</li>
             <li class="text-sm">Bootcamp</li>
-            <li class="text-sm">Tentang</li>
         </ul>
         <div class="flex items-center px-6 py-4">
             <a href="{{ route('login') }}" class="btn-fill text-sm w-full text-center">Belajar Sekarang!</a>

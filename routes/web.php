@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BootcampController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LiveCodingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
@@ -20,9 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('beranda');
+Route::get('/', [HomeController::class, 'index'])->name('beranda');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', function () {
@@ -60,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/submit-quiz', [QuizController::class, 'submit'])->name('submit.quiz');
         Route::post('/save-progress', [LiveCodingController::class, 'saveProgress'])->name('save.progress');
 
+
+
         Route::get('/tugas-akhir', [TugasAkhirController::class, 'index'])->name('tugas-akhir.index');
         Route::post('/tugas-akhir', [TugasAkhirController::class, 'store'])->name('tugas-akhir.store');
         // routes/web.php
@@ -74,6 +75,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+Route::get('/check-quiz-progress/{module_id}', [LiveCodingController::class, 'checkQuizProgress']);
 
 // Route::get('/quiz', function () {
 //     return view('bootcamp.quiz.index');

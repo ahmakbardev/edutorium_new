@@ -95,6 +95,7 @@ class BootcampController extends Controller
 
         // Cek apakah data quiz ada untuk module_id
         $quizExists = DB::table('quizzes')->where('module_id', $module->id)->exists();
+        $livecodeExists = DB::table('livecode_tutorials')->where('module_id', $module->id)->exists();
 
         // Cek apakah nilai kuis sudah ada dalam progress
         $quizProgress = DB::table('progress')
@@ -110,7 +111,37 @@ class BootcampController extends Controller
             ->value('livecode');
         $livecodeCompleted = $livecodeProgress !== null;
 
-        return view('bootcamp.materi.index', compact('module', 'currentMateri', 'nextMateri', 'prevMateri', 'quizExists', 'quizCompleted', 'livecodeCompleted'));
+        // Cek apakah semua modul telah selesai
+        $allModulesCompleted = DB::table('modules')
+            ->leftJoin('progress', function ($join) {
+                $join->on('modules.id', '=', 'progress.module_id')
+                    ->where('progress.user_id', Auth::id());
+            })
+            ->leftJoin('quizzes', 'modules.id', '=', 'quizzes.module_id')
+            ->leftJoin('livecode_tutorials', 'modules.id', '=', 'livecode_tutorials.module_id')
+            ->select('modules.id as module_id', 'progress.id as progress_id', 'progress.quiz as progress_quiz', 'progress.livecode as progress_livecode', 'quizzes.id as quiz_id', 'livecode_tutorials.id as livecode_id')
+            ->where(function ($query) {
+                $query->where(function ($query) {
+                    $query->whereNotNull('quizzes.id')
+                        ->whereNotNull('progress.quiz');
+                })
+                    ->orWhere(function ($query) {
+                        $query->whereNotNull('livecode_tutorials.id')
+                            ->whereNotNull('progress.livecode');
+                    })
+                    ->orWhere(function ($query) {
+                        $query->whereNull('quizzes.id')
+                            ->whereNull('livecode_tutorials.id');
+                    });
+            })
+            ->whereNull('progress.id')
+            ->doesntExist();
+
+        // Cek apakah ada modul berikutnya
+        $nextModule = DB::table('modules')->where('id', '>', $module->id)->orderBy('id')->first();
+        $nextModuleFirstMateri = $nextModule ? DB::table('materis')->where('modul_id', $nextModule->id)->orderBy('urutan_materi')->first() : null;
+
+        return view('bootcamp.materi.index', compact('module', 'currentMateri', 'nextMateri', 'prevMateri', 'quizExists', 'quizCompleted', 'livecodeCompleted', 'nextModule', 'nextModuleFirstMateri', 'livecodeExists', 'allModulesCompleted'));
     }
 
 

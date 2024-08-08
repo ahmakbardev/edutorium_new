@@ -57,6 +57,25 @@ class LiveCodingController extends Controller
         return view('bootcamp.livecode.index', compact('tutorials', 'module'));
     }
 
+    public function checkQuizProgress($module_id)
+    {
+        $user_id = Auth::id();
+        $hasQuiz = DB::table('quizzes')
+            ->where('module_id', $module_id)
+            ->exists();
+
+        $hasCompletedQuiz = DB::table('progress')
+            ->where('user_id', $user_id)
+            ->where('module_id', $module_id)
+            ->whereNotNull('quiz')
+            ->exists();
+
+        return response()->json([
+            'hasQuiz' => $hasQuiz && !$hasCompletedQuiz,
+        ]);
+    }
+
+
     public function saveProgress(Request $request)
     {
         $user_id = Auth::id();
@@ -93,6 +112,6 @@ class LiveCodingController extends Controller
             ]
         );
 
-        return response()->json(['status' => 'success', 'redirect' => route('user.dashboard'), 'message' => 'Anda telah menyelesaikan modul.']);
+        return response()->json(['status' => 'success', 'redirect' => route('user.dashboard'), 'message' => 'Anda telah menyelesaikan livecoding.']);
     }
 }
