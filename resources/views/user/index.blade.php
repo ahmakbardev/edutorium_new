@@ -473,98 +473,124 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                feather.replace();
+                        feather.replace();
 
-                // Event listener untuk setiap card
-                document.querySelectorAll('.card[data-html]').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const htmlContent = card.getAttribute('data-html');
-                        const cssContent = card.getAttribute('data-css');
-                        const jsContent = card.getAttribute('data-js');
-                        const links = card.getAttribute('data-links');
-                        const scripts = card.getAttribute('data-scripts');
+                        // Helper function to dynamically load external scripts
+                        function loadScript(previewDoc, src, type = 'text/javascript') {
+                            return new Promise((resolve, reject) => {
+                                const existingScript = Array.from(previewDoc.scripts).find(script => script.src ===
+                                    src);
+                                if (existingScript) {
+                                    resolve();
+                                    return;
+                                }
 
-                        const iframe = document.getElementById('livecodeIframe');
-                        const previewDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-                        previewDoc.open();
-                        previewDoc.write(`
-                <html>
-                <head>
-                    ${links}
-                    <style>${cssContent}</style>
-                </head>
-                <body>
-                    ${htmlContent}
-                </body>
-                </html>
-            `);
-                        previewDoc.close();
-
-                        // Menambahkan CDN yang digunakan
-                        if (jsContent.includes('gsap')) {
-                            const gsapScript = previewDoc.createElement('script');
-                            gsapScript.src =
-                                "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js";
-                            gsapScript.onload = () => {
-                                const userScript = previewDoc.createElement('script');
-                                userScript.type = 'text/javascript';
-                                userScript.text = jsContent;
-                                previewDoc.body.appendChild(userScript);
-                            };
-                            previewDoc.body.appendChild(gsapScript);
+                                const script = previewDoc.createElement('script');
+                                script.src = src;
+                                script.type = type;
+                                script.onload = resolve;
+                                script.onerror = (error) => {
+                                    console.error(`Error loading script: ${src}`, error);
+                                    reject(error);
+                                };
+                                previewDoc.body.appendChild(script);
+                            });
                         }
-                        if (jsContent.includes('three')) {
-                            const threeScript = previewDoc.createElement('script');
-                            threeScript.src =
-                                "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
-                            threeScript.onload = () => {
-                                const userScript = previewDoc.createElement('script');
-                                userScript.type = 'text/javascript';
-                                userScript.text = jsContent;
-                                previewDoc.body.appendChild(userScript);
-                            };
-                            previewDoc.body.appendChild(threeScript);
-                        }
-                        if (jsContent.includes('jquery')) {
-                            const jqueryScript = previewDoc.createElement('script');
-                            jqueryScript.src =
-                                "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js";
-                            jqueryScript.onload = () => {
-                                const userScript = previewDoc.createElement('script');
-                                userScript.type = 'text/javascript';
-                                userScript.text = jsContent;
-                                previewDoc.body.appendChild(userScript);
-                            };
-                            previewDoc.body.appendChild(jqueryScript);
-                        }
-                        // Tambahkan cek lainnya sesuai kebutuhan
 
-                        // Tampilkan modal dengan animasi
-                        const modal = document.getElementById('livecodeModal');
-                        const modalContent = document.getElementById('livecodeModalContent');
-                        modal.classList.remove('hidden');
-                        setTimeout(() => {
-                            modalContent.classList.remove('opacity-0', 'translate-y-4',
-                                'blur-sm');
-                            modalContent.classList.add('opacity-100', 'translate-y-0',
-                                'blur-none');
-                        }, 10); // delay for smooth transition
-                    });
-                });
+                        // Event listener untuk setiap card
+                        document.querySelectorAll('.card[data-html]').forEach(card => {
+                                card.addEventListener('click', async () => {
+                                        const htmlContent = card.getAttribute('data-html');
+                                        const cssContent = card.getAttribute('data-css');
+                                        const jsContent = card.getAttribute('data-js');
+                                        const links = card.getAttribute('data-links');
+                                        const scripts = card.getAttribute('data-scripts');
 
-                // Event listener untuk tombol tutup modal
-                document.getElementById('close-modal').addEventListener('click', () => {
-                    const modal = document.getElementById('livecodeModal');
-                    const modalContent = document.getElementById('livecodeModalContent');
-                    modalContent.classList.add('opacity-0', 'translate-y-4', 'blur-sm');
-                    modalContent.classList.remove('opacity-100', 'translate-y-0', 'blur-none');
-                    setTimeout(() => {
-                        modal.classList.add('hidden');
-                    }, 300); // match the duration of the animation
-                });
-            });
+                                        const iframe = document.getElementById('livecodeIframe');
+                                        const previewDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                                        let cssLink = '';
+                                        let jsLink = '';
+
+                                        if (links.includes('tailwind')) {
+                                            cssLink =
+                                                '<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">';
+                                        } else if (links.includes('bootstrap')) {
+                                            cssLink =
+                                                '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">';
+                                            jsLink =
+                                                '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></' +
+                                                'script>';
+                                        }
+
+                                        const jsCode = jsContent.replace(/<\/script>/g, '<\\/script>');
+                                        const isModule = jsCode.includes('import');
+
+                                        previewDoc.open();
+                                        previewDoc.write(`
+                                            <!DOCTYPE html>
+                                            <html>
+                                            <head>
+                                                ${cssLink}
+                                                <style>${cssContent}</style>
+                                            </head>
+                                            <body>
+                                                ${htmlContent}
+                                                ${jsLink}
+                                            </body>
+                                            </html>
+                                        `);
+                                        previewDoc.close();
+
+                                        const threeJsVersion = '128';
+                                        const datGuiVersion = '0.7.6';
+                                        const jQueryVersion = '3.6.0';
+                                        const gsapVersion = '3.6.0';
+
+                                        const promises = [];
+                                        promises.push(loadScript(previewDoc, `https://cdnjs.cloudflare.com/ajax/libs/three.js/r${threeJsVersion}/three.min.js`));
+                                        promises.push(loadScript(previewDoc, `https://cdn.jsdelivr.net/npm/dat.gui@${datGuiVersion}/build/dat.gui.min.js`));
+                                        promises.push(loadScript(previewDoc, `https://cdnjs.cloudflare.com/ajax/libs/jquery/${jQueryVersion}/jquery.min.js`));
+                                        promises.push(loadScript(previewDoc, `https://cdnjs.cloudflare.com/ajax/libs/gsap/${gsapVersion}/gsap.min.js`));
+
+                                        await Promise.all(promises);
+
+                                        const userScript = previewDoc.createElement('script');
+                                        userScript.type = isModule ? 'module' : 'text/javascript';
+                                        userScript.text = jsCode;
+                                        previewDoc.body.appendChild(userScript);
+
+
+
+
+                                            await Promise.all(promises);
+
+                                            // Tampilkan modal dengan animasi
+                                            const modal = document.getElementById('livecodeModal');
+                                            const modalContent = document.getElementById(
+                                            'livecodeModalContent'); modal.classList.remove(
+                                            'hidden'); setTimeout(() => {
+                                                modalContent.classList.remove('opacity-0', 'translate-y-4',
+                                                    'blur-sm');
+                                                modalContent.classList.add('opacity-100', 'translate-y-0',
+                                                    'blur-none');
+                                            }, 10); // delay for smooth transition
+                                        });
+                                });
+
+                            // Event listener untuk tombol tutup modal
+                            document.getElementById('close-modal').addEventListener('click', () => {
+                                const modal = document.getElementById('livecodeModal');
+                                const modalContent = document.getElementById('livecodeModalContent');
+                                modalContent.classList.add('opacity-0', 'translate-y-4', 'blur-sm');
+                                modalContent.classList.remove('opacity-100', 'translate-y-0', 'blur-none');
+                                setTimeout(() => {
+                                    modal.classList.add('hidden');
+                                }, 300); // match the duration of the animation
+                            });
+                        });
         </script>
+
 
     </div>
 @endsection
