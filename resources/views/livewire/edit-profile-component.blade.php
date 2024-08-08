@@ -27,7 +27,7 @@
                 <div>
                     <label for="name" class="block text-gray-700">Nama</label>
                     <input type="text" id="name" wire:model="name"
-                        class="block w-full mt-1 p-2 border border-gray-300 rounded">
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded" required>
                     @error('name')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -36,7 +36,7 @@
                 <div>
                     <label for="email" class="block text-gray-700">Email</label>
                     <input type="email" id="email" wire:model="email"
-                        class="block w-full mt-1 p-2 border border-gray-300 rounded">
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded" required>
                     @error('email')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -44,7 +44,7 @@
 
                 <div>
                     <label for="bio" class="block text-gray-700">Bio</label>
-                    <textarea id="bio" wire:model="bio" class="block w-full mt-1 p-2 border border-gray-300 rounded"></textarea>
+                    <textarea id="bio" wire:model="bio" class="block w-full mt-1 p-2 border border-gray-300 rounded" required></textarea>
                     @error('bio')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -53,7 +53,7 @@
                 <div>
                     <label for="phone" class="block text-gray-700">Nomor Telepon</label>
                     <input type="number" id="phone" wire:model="phone"
-                        class="block w-full mt-1 p-2 border border-gray-300 rounded">
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded" required>
                     @error('phone')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -62,7 +62,7 @@
                 <div>
                     <label for="sekolah" class="block text-gray-700">Sekolah</label>
                     <input type="text" id="sekolah" wire:model="sekolah"
-                        class="block w-full mt-1 p-2 border border-gray-300 rounded">
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded" required>
                     @error('sekolah')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -71,7 +71,7 @@
                 <div>
                     <label for="kelas" class="block text-gray-700">Kelas</label>
                     <input type="text" id="kelas" wire:model="kelas"
-                        class="block w-full mt-1 p-2 border border-gray-300 rounded">
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded" required>
                     @error('kelas')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -80,7 +80,7 @@
                 <div>
                     <label for="jurusan" class="block text-gray-700">Jurusan</label>
                     <input type="text" id="jurusan" wire:model="jurusan"
-                        class="block w-full mt-1 p-2 border border-gray-300 rounded">
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded" required>
                     @error('jurusan')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -89,13 +89,13 @@
                 <div>
                     <label for="tgl_lahir" class="block text-gray-700">Tanggal Lahir</label>
                     <input type="date" id="tgl_lahir" wire:model="tgl_lahir"
-                        class="block w-full mt-1 p-2 border border-gray-300 rounded">
+                        class="block w-full mt-1 p-2 border border-gray-300 rounded" required>
                     @error('tgl_lahir')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Simpan Perubahan</button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded" required>Simpan Perubahan</button>
             </form>
         </div>
     </div>
