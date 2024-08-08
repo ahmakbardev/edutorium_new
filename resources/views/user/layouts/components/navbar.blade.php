@@ -1,7 +1,7 @@
 <nav class="navbar-vertical navbar">
     <div id="myScrollableElement" class="h-screen" data-simplebar>
         <!-- brand logo -->
-        <a class="navbar-brand" href="./index.html">
+        <a class="navbar-brand" href="{{ route('user.dashboard') }}">
             {{-- <img src="{{ asset('assets/images/brand/logo/logo.svg') }}" alt="" /> --}}
             <h1 class="text-2xl text-white font-bold">edutorium</h1>
         </a>
