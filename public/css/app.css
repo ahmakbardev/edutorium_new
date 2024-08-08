@@ -1179,6 +1179,9 @@ video {
 .resize {
   resize: both;
 }
+.list-inside {
+  list-style-position: inside;
+}
 .list-disc {
   list-style-type: disc;
 }
@@ -1906,6 +1909,14 @@ video {
 .text-yellow-700 {
   --tw-text-opacity: 1;
   color: rgb(161 98 7 / var(--tw-text-opacity));
+}
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration-line: underline;

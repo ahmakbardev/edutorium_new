@@ -177,46 +177,67 @@
                         @endif
                     </div>
                 </div>
-                {{-- @if ($latestProgress)
-                    <div class="grid grid-cols-3 py-4">
-                        <!-- content -->
-                        <div class="text-center">
-                            <div class="mb-3">
-                                <i class="w-6 h-6 text-green-500 mx-auto" data-feather="bookmark"></i>
-                            </div>
-                            <p class="text-gray-600">Progress Modul</p>
-                            <span
-                                class="text-2xl font-bold text-gray-800">{{ rtrim(rtrim(number_format($progressPercentage, 2), '0'), '.') }}%</span>
-                            <span
-                                class="bg-green-200 w-fit mx-auto px-3 py-1 text-green-700 text-xs font-medium rounded-full block whitespace-nowrap text-center">{{ $latestProgress->module_name }}</span>
+                <div class="grid grid-cols-1 py-4">
+                    <h1 class="text-xl font-semibold">Tugas Akhir :</h1>
+                    @if ($finalSubmission)
+                        <div class="bg-white p-4 rounded-lg shadow-md text-black mb-4">
+                            <p class="text-lg font-semibold mb-2">Pengumpulan Tugas Akhir:</p>
+                            <ul class="list-disc list-inside">
+                                <li class="truncate overflow-hidden whitespace-nowrap" style="max-width: 100%;">
+                                    GitHub URL: <a href="{{ $finalSubmission->github_url }}" target="_blank"
+                                        class="text-blue-600 underline">{{ $finalSubmission->github_url }}</a>
+                                </li>
+                                <li class="truncate overflow-hidden whitespace-nowrap" style="max-width: 100%;">
+                                    Web URL: <a href="{{ $finalSubmission->web_url }}" target="_blank"
+                                        class="text-blue-600 underline">{{ $finalSubmission->web_url }}</a>
+                                </li>
+                            </ul>
                         </div>
-                        <!-- content -->
-                        <div class="text-center">
-                            <div class="mb-3">
-                                <i class="w-6 h-6 text-green-500 mx-auto" data-feather="book"></i>
+                        @if ($finalAssessment)
+                            <div class="bg-white p-4 rounded-lg shadow-md text-black">
+                                <p class="text-lg font-semibold mb-2">Penilaian Tugas Akhir:</p>
+                                @php
+                                    $cleanedJsonString = str_replace(
+                                        '\\"',
+                                        '"',
+                                        trim($finalAssessment->kriteria_penilaian, '"'),
+                                    );
+                                    $kriteriaPenilaian = json_decode($cleanedJsonString, true);
+                                    $totalScore = array_sum(array_column($kriteriaPenilaian, 'nilai'));
+                                    $averageScore = $totalScore / count($kriteriaPenilaian);
+                                @endphp
+                                @if (is_array($kriteriaPenilaian))
+                                    <ul class="list-disc list-inside border-b-2 pb-3">
+                                        @foreach ($kriteriaPenilaian as $kriteria)
+                                            <li>{{ $kriteria['kriteria'] }}: <span
+                                                    class="text-lg font-semibold text-green-700">{{ $kriteria['nilai'] }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    {{-- <p class="mt-4 text-lg font-semibold">Akumulasi Nilai: <span
+                                            class="text-lg font-semibold text-green-700">{{ $totalScore }}</span></p> --}}
+                                    <p class="text-lg font-semibold">Nilai Rata-rata: <span
+                                            class="text-lg font-semibold text-green-700">{{ number_format($averageScore, 2) }}</span>
+                                    </p>
+                                @else
+                                    <p>Belum dinilai</p>
+                                @endif
                             </div>
+                        @else
+                            <div class="bg-white p-4 rounded-lg shadow-md text-black">
+                                <p>Tugas akhir belum dinilai.</p>
+                            </div>
+                        @endif
+                    @else
+                        <div class="bg-white p-4 rounded-lg shadow-md text-black">
+                            <p class="text-lg font-semibold">Belum ada pengumpulan tugas akhir.</p>
+                        </div>
+                    @endif
 
-                            <p class="text-gray-600">Nilai Quiz</p>
-                            <span class="text-2xl font-bold text-gray-800">{{ $latestProgress->quiz ?? '0' }}</span>
-                            <span
-                                class="bg-yellow-200 w-fit mx-auto px-3 py-1 text-yellow-700 text-xs font-medium rounded-full block whitespace-nowrap text-center">{{ $latestProgress->module_name }}</span>
-                        </div>
-                        <!-- content -->
-                        <div class="text-center">
-                            <div class="mb-3">
-                                <i class="w-6 h-6 text-green-500 mx-auto" data-feather="code"></i>
-                            </div>
-                            <p class="text-gray-600">Nilai Coding</p>
-                            @php
-                                $assessment = $assessments->where('module_id', $latestProgress->module_id)->first();
-                            @endphp
-                            <span
-                                class="text-2xl font-bold text-gray-800">{{ $assessment ? number_format($assessment->average_score, 2) : 'Belum dinilai' }}</span>
-                            <span
-                                class="bg-red-200 w-fit mx-auto px-3 py-1 text-red-700 text-xs font-medium rounded-full block whitespace-nowrap text-center">{{ $latestProgress->module_name }}</span>
-                        </div>
-                    </div>
-                @endif --}}
+
+                </div>
+
+
             </div>
 
         </div>

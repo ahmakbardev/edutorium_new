@@ -34,12 +34,12 @@
                                 Modul
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link flex gap-1 " href="{{ route('user.livecoding.index') }}">
                                 <i data-feather="code" class="w-4 h-4 mr-2"></i>
                                 LiveCode
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link flex gap-1" href="{{ route('user.quiz.index') }}">
                                 <i data-feather="edit-2" class="w-4 h-4 mr-2"></i>

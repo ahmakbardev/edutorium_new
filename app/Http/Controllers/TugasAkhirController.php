@@ -7,13 +7,46 @@ use App\Models\TugasAkhirSubmission;
 use App\Models\TugasAkhirSubmissionFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TugasAkhirController extends Controller
 {
     public function index()
     {
-        $tugasAkhirs = TugasAkhir::all();
         $userId = Auth::id();
+
+        // Logic to check if all modules are completed
+        $allModulesCompleted = DB::table('modules')
+            ->leftJoin('progress', function ($join) use ($userId) {
+                $join->on('modules.id', '=', 'progress.module_id')
+                    ->where('progress.user_id', $userId);
+            })
+            ->leftJoin('quizzes', 'modules.id', '=', 'quizzes.module_id')
+            ->leftJoin('livecode_tutorials', 'modules.id', '=', 'livecode_tutorials.module_id')
+            ->select('modules.id as module_id', 'progress.id as progress_id', 'progress.quiz as progress_quiz', 'progress.livecode as progress_livecode', 'quizzes.id as quiz_id', 'livecode_tutorials.id as livecode_id')
+            ->where(function ($query) {
+                $query->where(function ($query) {
+                    $query->whereNotNull('quizzes.id')
+                        ->whereNotNull('progress.quiz');
+                })
+                    ->orWhere(function ($query) {
+                        $query->whereNotNull('livecode_tutorials.id')
+                            ->whereNotNull('progress.livecode');
+                    })
+                    ->orWhere(function ($query) {
+                        $query->whereNull('quizzes.id')
+                            ->whereNull('livecode_tutorials.id');
+                    });
+            })
+            ->whereNull('progress.id')
+            ->doesntExist();
+
+        if (!$allModulesCompleted) {
+            return redirect()->back()->with('error', 'Selesaikan semua modul terlebih dahulu.');
+        }
+
+        // Fetching final submission and assessment data
+        $tugasAkhirs = TugasAkhir::all();
         $userSubmissions = TugasAkhirSubmission::where('user_id', $userId)->get();
 
         foreach ($tugasAkhirs as $tugasAkhir) {
@@ -29,6 +62,7 @@ class TugasAkhirController extends Controller
 
         return view('tugas_akhir.index', compact('tugasAkhirs'));
     }
+
 
     public function store(Request $request)
     {

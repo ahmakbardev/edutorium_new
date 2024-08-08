@@ -15,6 +15,8 @@ class DashboardController extends Controller
         $isProfileEmpty = false;
         $showSelamatDatangModal = false;
         $showTugasAkhirModal = false;
+        $finalSubmission = null;
+        $finalAssessment = null;
 
         if ($user) {
             $fieldsToCheck = ['bio', 'phone', 'sekolah'];
@@ -64,12 +66,20 @@ class DashboardController extends Controller
                 ->doesntExist();
 
             // Check if the user has already submitted the final project
-            $finalSubmissionExists = DB::table('tugas_akhir_submissions')
+            $finalSubmission = DB::table('tugas_akhir_submissions')
                 ->where('user_id', Auth::id())
-                ->exists();
+                ->first();
 
-            if ($allModulesCompleted && !$finalSubmissionExists) {
+            if ($allModulesCompleted && !$finalSubmission) {
                 $showTugasAkhirModal = true;
+            }
+
+            // Check if the final submission has been assessed
+            if ($finalSubmission) {
+                $finalAssessment = DB::table('tugas_akhir_assessments')
+                    ->where('user_id', Auth::id())
+                    ->where('tugas_akhir_id', $finalSubmission->tugas_akhir_id)
+                    ->first();
             }
         }
 
@@ -100,7 +110,7 @@ class DashboardController extends Controller
 
         $allLivecodes = DB::table('progress')
             ->join('modules', 'progress.module_id', '=', 'modules.id')
-            ->join('users', 'progress.user_id', '=', 'users.id') // Menambahkan join ke tabel users
+            ->join('users', 'progress.user_id', '=', 'users.id')
             ->whereNotNull('livecode')
             ->select('progress.*', 'modules.name as module_name', 'users.name as user_name', 'users.pic as user_pic')
             ->get();
@@ -199,7 +209,9 @@ class DashboardController extends Controller
             'latestProgress',
             'progressPercentage',
             'assessments',
-            'banners'
+            'banners',
+            'finalSubmission',
+            'finalAssessment'
         ));
     }
 }
