@@ -106,6 +106,7 @@ class DashboardController extends Controller
             ->where('progress.user_id', Auth::id())
             ->whereNotNull('livecode')
             ->select('progress.*', 'modules.name as module_name')
+            ->orderBy('progress.created_at', 'desc')
             ->get();
 
         $allLivecodes = DB::table('progress')
@@ -113,7 +114,9 @@ class DashboardController extends Controller
             ->join('users', 'progress.user_id', '=', 'users.id')
             ->whereNotNull('livecode')
             ->select('progress.*', 'modules.name as module_name', 'users.name as user_name', 'users.pic as user_pic')
+            ->orderBy('progress.created_at', 'desc')
             ->get();
+
 
         $progress = DB::table('progress')
             ->join('modules', 'progress.module_id', '=', 'modules.id')
