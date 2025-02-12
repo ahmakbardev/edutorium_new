@@ -21,9 +21,9 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            cd /home/u376682195/domains/edutorium.in
+            cd /home/u723134020/domains/edutorium.in
             git clone https://github.com/ahmakbardev/edutorium_new.git
-            cd /home/u376682195/domains/edutorium.in/edutorium_new
+            cd /home/u723134020/domains/edutorium.in/edutorium_new
             chmod +x ~/bin/composer
             echo "export PATH=$HOME/bin:$PATH" >> ~/.bash_profile
             git pull
@@ -38,9 +38,9 @@ jobs:
             php artisan optimize
             
             # Set permissions for storage directory
-            find /home/u376682195/domains/edutorium.in/edutorium_new/storage -type d -exec chmod 755 {} \;
-            find /home/u376682195/domains/edutorium.in/edutorium_new/storage -type f -exec chmod 644 {} \;
+            find /home/u723134020/domains/edutorium.in/edutorium_new/storage -type d -exec chmod 755 {} \;
+            find /home/u723134020/domains/edutorium.in/edutorium_new/storage -type f -exec chmod 644 {} \;
             
-            # rm -rf /home/u376682195/domains/edutorium.in/public_html/staging
-            ln -s /home/u376682195/domains/edutorium.in/edutorium_new/public/storage/* /home/u376682195/domains/edutorium.in/public_html/admin/storage
-            ln -s /home/u376682195/domains/edutorium.in/edutorium_new/public /home/u376682195/domains/edutorium.in/public_html/staging
+            # rm -rf /home/u723134020/domains/edutorium.in/public_html/staging
+            ln -s /home/u723134020/domains/edutorium.in/edutorium_new/public/storage/* /home/u723134020/domains/edutorium.in/public_html/admin/storage
+            ln -s /home/u723134020/domains/edutorium.in/edutorium_new/public /home/u723134020/domains/edutorium.in/public_html/staging
